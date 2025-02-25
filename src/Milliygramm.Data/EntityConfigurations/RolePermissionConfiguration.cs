@@ -1,10 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Milliygramm.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Milliygramm.Domain.Entities;
 
 namespace Milliygramm.Data.EntityConfigurations;
 
-public class RolePermissionConfiguration : IEntityTypeConfiguration<RolePermission>
+public sealed class RolePermissionConfiguration : IEntityTypeConfiguration<RolePermission>
 {
     public void Configure(EntityTypeBuilder<RolePermission> builder)
     {
@@ -15,9 +15,5 @@ public class RolePermissionConfiguration : IEntityTypeConfiguration<RolePermissi
         builder.HasOne(rp => rp.Role)
             .WithMany(role => role.RolePermissions)
             .HasForeignKey(rp => rp.RoleId);
-
-        builder.HasOne(rp => rp.Permission)
-            .WithMany()
-            .HasForeignKey(rp => rp.PermissionId);
     }
 }

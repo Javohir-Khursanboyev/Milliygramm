@@ -20,7 +20,7 @@ public sealed class AssetConfiguration : IEntityTypeConfiguration<Asset>
 
         builder.Property(asset => asset.Path)
             .IsRequired()
-            .HasMaxLength(500);
+            .HasMaxLength(255);
 
         builder.Property(asset => asset.FileType)
             .IsRequired();
