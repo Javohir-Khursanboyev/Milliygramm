@@ -17,8 +17,8 @@ public sealed class RoleConfiguration : IEntityTypeConfiguration<Role>
         builder.HasIndex(role => role.Name).IsUnique();
 
         builder.HasData(
-                new Role { Id = Role.AdminId, Name = Role.Admin, CreatedAt = DateTime.UtcNow },
-                new Role { Id = Role.UserId, Name = Role.User, CreatedAt = DateTime.UtcNow }
+                new Role { Id = Role.AdminId, Name = Role.Admin, CreatedAt = new DateTime(2025, 01, 01) },
+                new Role { Id = Role.UserId, Name = Role.User, CreatedAt = new DateTime(2025, 01, 01) }
                 //new Role { Id = 3, Name = "Guest", CreatedAt = DateTime.UtcNow }
             );
     }
