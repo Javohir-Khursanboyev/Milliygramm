@@ -10,5 +10,5 @@ public class User : Auditable
     public string Email { get; set; }
     public string Password { get; set; }
     public UserDetail UserDetail {  get; set; }
-    public Chat Chat { get; set; }
+    public IEnumerable<Chat> Chats { get; set; }
 }
