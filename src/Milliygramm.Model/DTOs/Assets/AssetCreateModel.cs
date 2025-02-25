@@ -1,10 +1,10 @@
-﻿namespace Milliygramm.Model.DTOs.Assets;
+﻿using Microsoft.AspNetCore.Http;
+using Milliygramm.Domain.Enums;
+
+namespace Milliygramm.Model.DTOs.Assets;
 
 public sealed class AssetCreateModel
 {
-}
-
-public sealed class AssetViewModel
-{
-
+    public IFormFile File { get; set; }
+    public FileType FileType { get; set; }
 }

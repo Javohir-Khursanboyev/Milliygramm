@@ -2,6 +2,7 @@
 
 public sealed class UserCreateModel
 {
+
 }
 
 public sealed class UserViewModel
