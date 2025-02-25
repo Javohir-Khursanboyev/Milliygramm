@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Milliygramm.Api.Controllers;
 
-public class UsersController(IUserService userService) : ControllerBase
+public sealed class UsersController(IUserService userService) : ControllerBase
 {
     [HttpPost]
     [AllowAnonymous]
