@@ -6,7 +6,7 @@ using System.IdentityModel.Tokens.Jwt;
 
 namespace Milliygramm.Service.Helpers;
 
-public class AuthHelper
+public static class AuthHelper
 {
     public static string GenerateToken(User user)
     {

@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace Milliygramm.Service.Validators.Users;
 
-public class UserCreateModelValidator : AbstractValidator<UserCreateModel>
+public sealed class UserCreateModelValidator : AbstractValidator<UserCreateModel>
 {
     public UserCreateModelValidator()
     {

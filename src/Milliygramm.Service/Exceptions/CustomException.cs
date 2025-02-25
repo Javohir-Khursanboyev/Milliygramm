@@ -1,6 +1,6 @@
 ﻿namespace Milliygramm.Service.Exceptions;
 
-public class CustomException : Exception
+public sealed class CustomException : Exception
 {
     public CustomException() { }
     public CustomException(int statusCode, string message) : base(message)

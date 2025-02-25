@@ -1,6 +1,6 @@
 ﻿namespace Milliygramm.Service.Exceptions;
 
-public class ArgumentIsNotValidException : Exception
+public sealed class ArgumentIsNotValidException : Exception
 {
     public ArgumentIsNotValidException() { }
     public ArgumentIsNotValidException(string message) : base(message) { }

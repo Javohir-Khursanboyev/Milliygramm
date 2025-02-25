@@ -3,7 +3,7 @@ using Milliygramm.Model.DTOs.Auth;
 
 namespace Milliygramm.Service.Validators.Auth;
 
-public class LoginModelValidator : AbstractValidator<LoginModel>
+public sealed class LoginModelValidator : AbstractValidator<LoginModel>
 {
     public LoginModelValidator()
     {
