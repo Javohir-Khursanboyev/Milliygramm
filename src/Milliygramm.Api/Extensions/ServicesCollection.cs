@@ -6,6 +6,7 @@ using Milliygramm.Data.UnitOfWork;
 using Milliygramm.Service.Helpers;
 using Milliygramm.Service.Services.Assets;
 using Milliygramm.Service.Services.Auth;
+using Milliygramm.Service.Services.UserDetails;
 using Milliygramm.Service.Services.Users;
 using Milliygramm.Service.Validators.Auth;
 using Milliygramm.Service.Validators.Users;
@@ -18,6 +19,7 @@ public static class ServicesCollection
         services.AddScoped<IAssetService, AssetService>();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IAuthService, AuthService>();
+        services.AddScoped<IUserDetailService, UserDetailService>();
     }
 
     public static void AddExceptionHandlers(this IServiceCollection services)

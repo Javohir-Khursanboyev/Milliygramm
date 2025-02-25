@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc.ApplicationModels;
-using Microsoft.EntityFrameworkCore;
+﻿using Milliygramm.Service.Mappers;
 using Milliygramm.Data.DbContexts;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,9 +17,18 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddControllers(options =>
     options.Conventions.Add(new RouteTokenTransformerConvention(new ConfigurationApiUrlName())));
 
+
+builder.Services.AddExceptionHandlers();
+builder.Services.AddProblemDetails();
+builder.Services.AddAutoMapper(typeof(MappingProfile));
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddValidators();
+builder.Services.AddServices();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.ConfigureSwagger();
+builder.Services.AddJwtService(builder.Configuration);
 
 var app = builder.Build();
 
@@ -29,8 +39,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.AddInjectHelper();
+app.InjectEnvironmentItems();
+app.UseExceptionHandler();
 app.UseHttpsRedirection();
-
+app.UseStaticFiles();
 app.UseAuthorization();
 
 app.MapControllers();
