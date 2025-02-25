@@ -1,4 +1,6 @@
-﻿namespace Milliygramm.Service.Helpers;
+﻿using static System.Runtime.InteropServices.JavaScript.JSType;
+
+namespace Milliygramm.Service.Helpers;
 
 public static class PasswordHasher
 {
