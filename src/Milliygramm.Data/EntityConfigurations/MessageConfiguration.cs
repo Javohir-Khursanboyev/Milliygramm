@@ -1,10 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Milliygramm.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Milliygramm.Domain.Entities;
 
 namespace Milliygramm.Data.EntityConfigurations;
 
-public class MessageConfiguration : IEntityTypeConfiguration<Message>
+public sealed class MessageConfiguration : IEntityTypeConfiguration<Message>
 {
     public void Configure(EntityTypeBuilder<Message> builder)
     {

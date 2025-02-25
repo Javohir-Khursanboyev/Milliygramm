@@ -1,10 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Milliygramm.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Milliygramm.Domain.Entities;
 
 namespace Milliygramm.Data.EntityConfigurations;
 
-public class GroupMemberConfiguration : IEntityTypeConfiguration<GroupMember>
+public sealed class GroupMemberConfiguration : IEntityTypeConfiguration<GroupMember>
 {
     public void Configure(EntityTypeBuilder<GroupMember> builder)
     {
@@ -16,11 +16,6 @@ public class GroupMemberConfiguration : IEntityTypeConfiguration<GroupMember>
         .WithMany(g => g.GroupMembers)
         .HasForeignKey(gm => gm.GroupId)
         .OnDelete(DeleteBehavior.Cascade); // Guruh o‘chsa, a'zolik ham o‘chadi
-
-        builder.HasOne(gm => gm.Member)
-            .WithMany()
-            .HasForeignKey(gm => gm.MemberId)
-            .OnDelete(DeleteBehavior.Cascade); // User o‘chsa, a'zolik ham o‘chadi
     }
 }
 

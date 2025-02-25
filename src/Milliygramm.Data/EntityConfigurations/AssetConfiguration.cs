@@ -1,11 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Milliygramm.Domain.Enums;
 using Milliygramm.Domain.Entities;
-using Milliygramm.Domain.Enums;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Milliygramm.Data.EntityConfigurations;
 
-public class AssetConfiguration : IEntityTypeConfiguration<Asset>
+public sealed class AssetConfiguration : IEntityTypeConfiguration<Asset>
 {
     public void Configure(EntityTypeBuilder<Asset> builder)
     {
@@ -20,7 +20,7 @@ public class AssetConfiguration : IEntityTypeConfiguration<Asset>
 
         builder.Property(asset => asset.Path)
             .IsRequired()
-            .HasMaxLength(500);
+            .HasMaxLength(255);
 
         builder.Property(asset => asset.FileType)
             .IsRequired();
@@ -31,9 +31,9 @@ public class AssetConfiguration : IEntityTypeConfiguration<Asset>
         builder.HasData(
             new Asset
             {
-                Id = 1,
-                Name = "DefaultImage.png",
-                Path = "/images/DefaultImage.png",
+                Id = Asset.DefaultPictureId,
+                Name = Asset.DefaultPictureName,
+                Path = Asset.DefaultPicturePath,
                 FileType = FileType.Images,
                 CreatedAt = new DateTime(2025, 01, 01)
             }

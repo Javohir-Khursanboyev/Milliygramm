@@ -4,7 +4,7 @@ using Milliygramm.Domain.Entities;
 
 namespace Milliygramm.Data.EntityConfigurations;
 
-public class GroupDetailConfiguration : IEntityTypeConfiguration<GroupDetail>
+public sealed class GroupDetailConfiguration : IEntityTypeConfiguration<GroupDetail>
 {
     public void Configure(EntityTypeBuilder<GroupDetail> builder)
     {
@@ -20,10 +20,10 @@ public class GroupDetailConfiguration : IEntityTypeConfiguration<GroupDetail>
 
         builder.Property(gd => gd.Privacy).IsRequired();
 
-        builder.Property(gd => gd.Description).HasMaxLength(1000);
+        builder.Property(gd => gd.Description).HasMaxLength(255);
 
         builder.HasOne(gd => gd.Asset)
             .WithOne()
-            .HasForeignKey<GroupDetail>(gd => gd.PictureId);
+            .HasForeignKey<GroupDetail>(gd => gd.PictureId);    
     }
 }

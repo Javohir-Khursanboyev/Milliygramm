@@ -3,7 +3,7 @@ using Milliygramm.Domain.Enums;
 
 namespace Milliygramm.Domain.Entities;
 
-public class Chat : Auditable
+public sealed class Chat : Auditable
 {
     public string Name { get; set; }
     public ChatType ChatType { get; set; }

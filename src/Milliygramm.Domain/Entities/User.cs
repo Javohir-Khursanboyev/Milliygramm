@@ -2,7 +2,7 @@
 
 namespace Milliygramm.Domain.Entities;
 
-public class User : Auditable
+public sealed class User : Auditable
 {
     public string FirstName { get; set; }
     public string LastName { get; set; }    

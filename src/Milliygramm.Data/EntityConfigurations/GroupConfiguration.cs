@@ -4,7 +4,7 @@ using Milliygramm.Domain.Entities;
 
 namespace Milliygramm.Data.EntityConfigurations;
 
-public class GroupConfiguration : IEntityTypeConfiguration<Group>
+public sealed class GroupConfiguration : IEntityTypeConfiguration<Group>
 {
     public void Configure(EntityTypeBuilder<Group> builder)
     {
@@ -16,8 +16,8 @@ public class GroupConfiguration : IEntityTypeConfiguration<Group>
             .IsRequired()
             .HasMaxLength(255);
 
-        builder.HasMany(group => group.GroupMembers)
-            .WithOne()
-            .HasForeignKey(gm => gm.MemberId);
+        builder.HasOne(group => group.GroupDetail)
+             .WithOne()
+             .HasForeignKey<GroupDetail>(groupDetail => groupDetail.GroupId);
     }
 }
