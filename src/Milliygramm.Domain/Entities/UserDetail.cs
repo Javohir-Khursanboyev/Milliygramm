@@ -1,14 +1,13 @@
-﻿using System.Net.Sockets;
-using Milliygramm.Domain.Commons;
+﻿using Milliygramm.Domain.Commons;
 
 namespace Milliygramm.Domain.Entities;
 
-public class UserDetail : Auditable
+public sealed class UserDetail : Auditable
 {
     public string Bio {  get; set; }
     public DateTime DataOfBirth { get; set; }
     public string Location { get; set; }
     public long UserId { get; set; }
-    public long PictureId { get; set; }
+    public long? PictureId { get; set; }
     public Asset Picture { get; set; }
 }

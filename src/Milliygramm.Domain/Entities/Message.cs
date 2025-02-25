@@ -1,9 +1,8 @@
-﻿using System.Reflection.Metadata;
-using Milliygramm.Domain.Commons;
+﻿using Milliygramm.Domain.Commons;
 
 namespace Milliygramm.Domain.Entities;
 
-public class Message : Auditable
+public sealed class Message : Auditable
 {
     public long ChatId { get; set; }
     public Chat Chat { get; set; }

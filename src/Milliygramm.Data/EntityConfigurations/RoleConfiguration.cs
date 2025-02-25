@@ -1,10 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Milliygramm.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Milliygramm.Domain.Entities;
 
 namespace Milliygramm.Data.EntityConfigurations;
 
-public class RoleConfiguration : IEntityTypeConfiguration<Role>
+public sealed class RoleConfiguration : IEntityTypeConfiguration<Role>
 {
     public void Configure(EntityTypeBuilder<Role> builder)
     {
@@ -17,8 +17,8 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
         builder.HasIndex(role => role.Name).IsUnique();
 
         builder.HasData(
-                new Role { Id = 1, Name = "Admin", CreatedAt = DateTime.UtcNow },
-                new Role { Id = 2, Name = "User", CreatedAt = DateTime.UtcNow }
+                new Role { Id = Role.AdminId, Name = Role.Admin, CreatedAt = DateTime.UtcNow },
+                new Role { Id = Role.UserId, Name = Role.User, CreatedAt = DateTime.UtcNow }
                 //new Role { Id = 3, Name = "Guest", CreatedAt = DateTime.UtcNow }
             );
     }

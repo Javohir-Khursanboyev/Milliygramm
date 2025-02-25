@@ -2,7 +2,7 @@
 
 namespace Milliygramm.Domain.Entities;
 
-public class Group : Auditable 
+public sealed class Group : Auditable 
 {
     public string Name { get; set; }
     public GroupDetail GroupDetail { get; set; }

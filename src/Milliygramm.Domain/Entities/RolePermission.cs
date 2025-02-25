@@ -2,7 +2,7 @@
 
 namespace Milliygramm.Domain.Entities;
 
-public class RolePermission : Auditable
+public sealed class RolePermission : Auditable
 {
     public long RoleId { get; set; }
     public Role Role { get; set; }
