@@ -1,10 +1,8 @@
-﻿namespace Milliygramm.Service.Services.Auth;
+﻿using Milliygramm.Model.DTOs.Auth;
+
+namespace Milliygramm.Service.Services.Auth;
 
 public interface IAuthService
 {
-}
-
-public sealed class AuthService : IAuthService
-{
-
+    Task<LoginViewModel> LoginAsync(LoginModel loginModel);
 }
