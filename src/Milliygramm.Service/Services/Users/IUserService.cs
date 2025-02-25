@@ -1,10 +1,9 @@
-﻿namespace Milliygramm.Service.Services.Users;
+﻿using Milliygramm.Model.DTOs.Auth;
+using Milliygramm.Model.DTOs.Users;
+
+namespace Milliygramm.Service.Services.Users;
 
 public interface IUserService
 {
-}
-
-public sealed class UserService :IUserService
-{
-
+    Task<LoginViewModel> CreateAsync(UserCreateModel createModel);
 }

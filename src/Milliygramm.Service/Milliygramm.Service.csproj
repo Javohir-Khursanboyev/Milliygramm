@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Milliygramm.Data\Milliygramm.Data.csproj" />
     <ProjectReference Include="..\Milliygramm.Domain\Milliygramm.Domain.csproj" />
     <ProjectReference Include="..\Milliygramm.Model\Milliygramm.Model.csproj" />
   </ItemGroup>

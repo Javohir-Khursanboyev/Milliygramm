@@ -2,6 +2,7 @@
 
 public interface IAssetService
 {
+
 }
 
 public sealed class AssetService : IAssetService
