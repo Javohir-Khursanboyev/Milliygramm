@@ -19,7 +19,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Milliygramm.Service", "src\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Milliygramm.Database", "src\Milliygramm.Database\Milliygramm.Database.csproj", "{AE8EF7F9-8256-47E9-959A-8BAF1E5BEA84}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Milliygramm.Web.Service", "Milliygramm.Web.Service\Milliygramm.Web.Service.csproj", "{789E33B2-0068-4416-9409-B09BA60B0F7B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Milliygramm.Web.Service", "src\Milliygramm.Web.Service\Milliygramm.Web.Service.csproj", "{3D64A012-5F55-47BA-8E6B-329549720F22}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,10 +55,10 @@ Global
 		{AE8EF7F9-8256-47E9-959A-8BAF1E5BEA84}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AE8EF7F9-8256-47E9-959A-8BAF1E5BEA84}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AE8EF7F9-8256-47E9-959A-8BAF1E5BEA84}.Release|Any CPU.Build.0 = Release|Any CPU
-		{789E33B2-0068-4416-9409-B09BA60B0F7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{789E33B2-0068-4416-9409-B09BA60B0F7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{789E33B2-0068-4416-9409-B09BA60B0F7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{789E33B2-0068-4416-9409-B09BA60B0F7B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D64A012-5F55-47BA-8E6B-329549720F22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D64A012-5F55-47BA-8E6B-329549720F22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D64A012-5F55-47BA-8E6B-329549720F22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D64A012-5F55-47BA-8E6B-329549720F22}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -71,6 +71,6 @@ Global
 		{755F48BA-B317-4D9A-86B5-055B1D879AB2} = {EC199CF0-AC70-4F9D-8B30-A31FF83536F6}
 		{061DF7ED-3748-4B85-BC21-F9492FBD152D} = {EC199CF0-AC70-4F9D-8B30-A31FF83536F6}
 		{AE8EF7F9-8256-47E9-959A-8BAF1E5BEA84} = {EC199CF0-AC70-4F9D-8B30-A31FF83536F6}
-		{789E33B2-0068-4416-9409-B09BA60B0F7B} = {EC199CF0-AC70-4F9D-8B30-A31FF83536F6}
+		{3D64A012-5F55-47BA-8E6B-329549720F22} = {EC199CF0-AC70-4F9D-8B30-A31FF83536F6}
 	EndGlobalSection
 EndGlobal

@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\Milliygramm.Model\Milliygramm.Model.csproj" />
+    <ProjectReference Include="..\Milliygramm.Model\Milliygramm.Model.csproj" />
   </ItemGroup>
 
 </Project>
