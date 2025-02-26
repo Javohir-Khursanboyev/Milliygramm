@@ -1,10 +1,13 @@
 using Milliygramm.Web.Components;
+using Milliygramm.Web.Service.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+builder.Services.AddWebServices(builder.Configuration);
 
 var app = builder.Build();
 
