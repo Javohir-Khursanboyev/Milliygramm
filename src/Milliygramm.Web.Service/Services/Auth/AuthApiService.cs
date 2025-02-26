@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace Milliygramm.Web.Service.Services.Auth;
 
-public class AuthApiService(IApiService apiService) : IAuthApiService
+public sealed class AuthApiService(IApiService apiService) : IAuthApiService
 {
     private const string baseUri = "/api/Account";
 

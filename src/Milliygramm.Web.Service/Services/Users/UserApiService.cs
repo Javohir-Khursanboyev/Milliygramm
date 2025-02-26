@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace Milliygramm.Web.Service.Services.Users;
 
-public class UserApiService(IApiService apiService) : IUserApiService
+public sealed class UserApiService(IApiService apiService) : IUserApiService
 {
     private const string baseUri = "/api/Users";
     public async Task<UserViewModel> CreateAsync(UserCreateModel model)

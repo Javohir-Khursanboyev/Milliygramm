@@ -1,0 +1,17 @@
+﻿html, body {
+    height: 100%;
+    background-color: #9A616D;
+}
+
+.full-height-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card img {
+    border-radius: 1rem 0 0 1rem;
+    min-height: 100%;
+    object-fit: cover;
+}

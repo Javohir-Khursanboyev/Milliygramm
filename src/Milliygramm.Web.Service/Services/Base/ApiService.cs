@@ -3,7 +3,7 @@ using System.Net.Http.Json;
 
 namespace Milliygramm.Web.Service.Services.Base;
 
-public class ApiService(HttpClient httpClient) : IApiService
+public sealed class ApiService(HttpClient httpClient) : IApiService
 {
 
     public async Task<T1> PostAsync<T1, T2>(string path, T2 postModel)
