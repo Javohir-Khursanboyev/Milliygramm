@@ -1,0 +1,79 @@
+﻿@page "/register"
+
+@layout EmptyLayout
+@rendermode InteractiveServer
+
+<section class="full-height-container" style="background-color: #9A616D;">
+    <div class="container py-5">
+        <div class="row d-flex justify-content-center align-items-center">
+            <div class="col col-xl-10">
+                <div class="card" style="border-radius: 1rem;">
+                    <div class="row g-0 align-items-stretch">
+                        <!-- Rasm qismi -->
+                        <div class="col-md-6 col-lg-5 d-none d-md-block d-flex">
+                            <img src="/Images/RegisterPicture.webp"
+                                 alt="register form" class="img-fluid w-100"
+                                 style="border-radius: 1rem 0 0 1rem; min-height: 100%; object-fit: cover;" />
+                        </div>
+
+                        <!-- Forma qismi -->
+                        <div class="col-md-6 col-lg-7 d-flex align-items-center">
+                            <div class="card-body p-4 p-lg-5 text-black">
+
+                                <EditForm Model="@createModel" OnValidSubmit="HandleRegister">
+                                    <DataAnnotationsValidator />
+
+                                    <div class="d-flex align-items-center mb-3 pb-1">
+                                        <i class="fas fa-user-plus fa-2x me-3" style="color: #ff6219;"></i>
+                                        <span class="h1 fw-bold mb-0">MilliyChat</span>
+                                    </div>
+
+                                    <!-- Xatolik xabari -->
+                                    @if (showError)
+                                    {
+                                        <div class="alert alert-danger mb-4" style="max-height: 100px; overflow-y: auto;">
+                                            @errorMessage
+                                        </div>
+                                    }
+
+                                    <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Create your account</h5>
+
+                                    <div class="form-outline mb-4">
+                                        <InputText @bind-Value="@createModel.FirstName" class="form-control form-control-lg" placeholder="First Name" />
+                                    </div>
+
+                                    <div class="form-outline mb-4">
+                                        <InputText @bind-Value="@createModel.LastName" class="form-control form-control-lg" placeholder="Last Name" />
+                                    </div>
+
+                                    <div class="form-outline mb-4">
+                                        <InputText @bind-Value="@createModel.UserName" class="form-control form-control-lg" placeholder="Username" />
+                                    </div>
+
+                                    <div class="form-outline mb-4">
+                                        <InputText @bind-Value="@createModel.Email" type="email" class="form-control form-control-lg" placeholder="Email" />
+                                    </div>
+
+                                    <div class="form-outline mb-4">
+                                        <InputText @bind-Value="@createModel.Password" type="password" class="form-control form-control-lg" placeholder="Password" />
+                                    </div>
+
+                                    <div class="pt-1 mb-4">
+                                        <button class="btn btn-dark btn-lg btn-block" type="submit">Register</button>
+                                    </div>
+
+                                    <p class="mb-5 pb-lg-2" style="color: #393f81;">
+                                        Already have an account? <a href="/auth/login" style="color: #393f81;">Login here</a>
+                                    </p>
+                                    <a href="#" class="small text-muted">Terms of use.</a>
+                                    <a href="#" class="small text-muted">Privacy policy</a>
+                                </EditForm>
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

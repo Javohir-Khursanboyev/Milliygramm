@@ -10,12 +10,12 @@ public sealed class UserDetailService(IMapper mapper, IUnitOfWork unitOfWork) : 
 {
     public async Task<UserDetailViewModel> CreateAsync(UserDetailCreateModel createModel)
     {
-        var existUser = await unitOfWork.Users.SelectAsync(u => u.Id == createModel.UserId)
-           ?? throw new NotFoundException($"User not found with ID {createModel.UserId}");
+        var existPicture = await unitOfWork.Assets.SelectAsync(a => a.Id == Asset.DefaultPictureId)
+            ?? throw new NotFoundException($"Default Picture not found");
 
         var mappedUserDetail = mapper.Map<UserDetail>(createModel);
 
-        mappedUserDetail.PictureId = Asset.DefaultPictureId;
+        mappedUserDetail.Picture = existPicture;
         var createdUserDetail = await unitOfWork.UserDetails.InsertAsync(mappedUserDetail);
         await unitOfWork.SaveAsync();
 

@@ -463,8 +463,7 @@ namespace Milliygramm.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PictureId")
-                        .IsUnique();
+                    b.HasIndex("PictureId");
 
                     b.HasIndex("UserId")
                         .IsUnique();
@@ -587,8 +586,8 @@ namespace Milliygramm.Data.Migrations
             modelBuilder.Entity("Milliygramm.Domain.Entities.UserDetail", b =>
                 {
                     b.HasOne("Milliygramm.Domain.Entities.Asset", "Picture")
-                        .WithOne()
-                        .HasForeignKey("Milliygramm.Domain.Entities.UserDetail", "PictureId");
+                        .WithMany()
+                        .HasForeignKey("PictureId");
 
                     b.HasOne("Milliygramm.Domain.Entities.User", null)
                         .WithOne("UserDetail")

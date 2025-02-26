@@ -85,27 +85,6 @@ namespace Milliygramm.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "users",
-                columns: table => new
-                {
-                    Id = table.Column<long>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    FirstName = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false),
-                    LastName = table.Column<string>(type: "TEXT", nullable: true),
-                    UserName = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false),
-                    Email = table.Column<string>(type: "TEXT", nullable: false),
-                    Password = table.Column<string>(type: "TEXT", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "TEXT", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "INTEGER", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_users", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "group_details",
                 columns: table => new
                 {
@@ -160,6 +139,34 @@ namespace Milliygramm.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_role_permissions_roles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "roles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "users",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    FirstName = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false),
+                    LastName = table.Column<string>(type: "TEXT", nullable: true),
+                    UserName = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false),
+                    Email = table.Column<string>(type: "TEXT", nullable: false),
+                    Password = table.Column<string>(type: "TEXT", nullable: false),
+                    RoleId = table.Column<long>(type: "INTEGER", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    DeletedAt = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_users", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_users_roles_RoleId",
                         column: x => x.RoleId,
                         principalTable: "roles",
                         principalColumn: "Id",
@@ -395,8 +402,7 @@ namespace Milliygramm.Data.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_user_details_PictureId",
                 table: "user_details",
-                column: "PictureId",
-                unique: true);
+                column: "PictureId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_user_details_UserId",
@@ -409,6 +415,11 @@ namespace Milliygramm.Data.Migrations
                 table: "users",
                 column: "Email",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_users_RoleId",
+                table: "users",
+                column: "RoleId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_users_UserName",
@@ -442,9 +453,6 @@ namespace Milliygramm.Data.Migrations
                 name: "Permissions");
 
             migrationBuilder.DropTable(
-                name: "roles");
-
-            migrationBuilder.DropTable(
                 name: "assets");
 
             migrationBuilder.DropTable(
@@ -452,6 +460,9 @@ namespace Milliygramm.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "users");
+
+            migrationBuilder.DropTable(
+                name: "roles");
         }
     }
 }
