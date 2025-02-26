@@ -11,7 +11,7 @@ using Milliygramm.Data.DbContexts;
 namespace Milliygramm.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250225211325_Initial Migration")]
+    [Migration("20250226111828_Initial-Migration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -405,6 +405,9 @@ namespace Milliygramm.Data.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<long>("RoleId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("TEXT");
 
@@ -417,6 +420,8 @@ namespace Milliygramm.Data.Migrations
 
                     b.HasIndex("Email")
                         .IsUnique();
+
+                    b.HasIndex("RoleId");
 
                     b.HasIndex("UserName")
                         .IsUnique();
@@ -461,8 +466,7 @@ namespace Milliygramm.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PictureId")
-                        .IsUnique();
+                    b.HasIndex("PictureId");
 
                     b.HasIndex("UserId")
                         .IsUnique();
@@ -571,11 +575,22 @@ namespace Milliygramm.Data.Migrations
                     b.Navigation("Role");
                 });
 
+            modelBuilder.Entity("Milliygramm.Domain.Entities.User", b =>
+                {
+                    b.HasOne("Milliygramm.Domain.Entities.Role", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Role");
+                });
+
             modelBuilder.Entity("Milliygramm.Domain.Entities.UserDetail", b =>
                 {
                     b.HasOne("Milliygramm.Domain.Entities.Asset", "Picture")
-                        .WithOne()
-                        .HasForeignKey("Milliygramm.Domain.Entities.UserDetail", "PictureId");
+                        .WithMany()
+                        .HasForeignKey("PictureId");
 
                     b.HasOne("Milliygramm.Domain.Entities.User", null)
                         .WithOne("UserDetail")

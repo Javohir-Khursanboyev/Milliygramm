@@ -12,7 +12,7 @@ public class UserDetailConfiguration : IEntityTypeConfiguration<UserDetail>
 
         builder.HasKey(ud => ud.Id);
 
-        builder.HasIndex(ud => ud.UserId).IsUnique();
+        builder.HasIndex(ud => ud.UserId);
 
         builder.Property(ud => ud.Bio)
             .HasMaxLength(500);
@@ -20,12 +20,8 @@ public class UserDetailConfiguration : IEntityTypeConfiguration<UserDetail>
         builder.Property(ud => ud.Location)
             .HasMaxLength(255);
 
-        builder.HasOne<User>()
-            .WithOne(u => u.UserDetail)
-            .HasForeignKey<UserDetail>(ud => ud.UserId);
-
         builder.HasOne(ud => ud.Picture)
-            .WithOne()
-            .HasForeignKey<UserDetail>(ud => ud.PictureId);
+            .WithMany()  
+            .HasForeignKey(ud => ud.PictureId);
     }
 }

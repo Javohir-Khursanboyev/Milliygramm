@@ -16,7 +16,7 @@ public sealed class AuthService(IMapper mapper, IUnitOfWork unitOfWork, LoginMod
         await loginValidator.EnsureValidatedAsync(loginModel);
 
         var existUser = await unitOfWork.Users
-            .SelectAsync(expression: u => u.UserName.ToLower() == loginModel.UserName.ToLower(), includes: ["Role"])
+            .SelectAsync(expression: u => u.UserName.ToLower() == loginModel.UserName.ToLower(), includes: ["Role", "UserDetail.Picture"])
            ?? throw new ArgumentIsNotValidException("UserName or Password incorrect");
 
         if (!PasswordHasher.Verify(loginModel.Password, existUser.Password))
