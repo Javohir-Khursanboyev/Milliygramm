@@ -1,5 +1,4 @@
-﻿using System.Net.Http;
-using Milliygramm.Model.DTOs.Assets;
+﻿using Milliygramm.Model.DTOs.Assets;
 
 namespace Milliygramm.Service.Helpers;
 

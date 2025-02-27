@@ -1,4 +1,5 @@
-﻿using Milliygramm.Model.DTOs.Users;
+﻿using Milliygramm.Model.DTOs.Assets;
+using Milliygramm.Model.DTOs.Users;
 
 namespace Milliygramm.Service.Services.UserDetails;
 

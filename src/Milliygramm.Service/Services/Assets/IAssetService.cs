@@ -1,11 +1,10 @@
-﻿namespace Milliygramm.Service.Services.Assets;
+﻿using Milliygramm.Model.DTOs.Assets;
+
+namespace Milliygramm.Service.Services.Assets;
 
 public interface IAssetService
 {
-
-}
-
-public sealed class AssetService : IAssetService
-{
-
+    Task<AssetViewModel> UploadAsync(AssetCreateModel model);
+    Task<bool> DeleteAsync(long id);
+    Task<AssetViewModel> GetByIdAsync(long id);
 }

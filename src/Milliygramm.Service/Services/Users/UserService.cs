@@ -8,14 +8,18 @@ using Milliygramm.Service.Exceptions;
 using Milliygramm.Service.Extensions;
 using Milliygramm.Service.Validators.Users;
 using Milliygramm.Service.Services.UserDetails;
+using Milliygramm.Model.DTOs.Assets;
+using Milliygramm.Service.Services.Assets;
 
 namespace Milliygramm.Service.Services.Users;
 
 public sealed class UserService(
     IMapper mapper,
     IUnitOfWork unitOfWork, 
+    IAssetService assetService,
     IUserDetailService userDetailService,
-    UserCreateModelValidator createModelValidotor) : IUserService
+    UserCreateModelValidator createModelValidotor,
+    UserUpdateModelValidator updateModelValidator) : IUserService
 {
     public async Task<LoginViewModel> CreateAsync(UserCreateModel createModel)
     {
@@ -48,5 +52,77 @@ public sealed class UserService(
     }
 
     private async Task<Role> GetUserRoleById(long userRoleId)
-       => await unitOfWork.Roles.SelectAsync(roleId => roleId.Id == userRoleId);
+        => await unitOfWork.Roles.SelectAsync(roleId => roleId.Id == userRoleId);
+
+    public async Task<UserViewModel> UpdateAsync(long id, UserUpdateModel updateModel)
+    {
+        await updateModelValidator.EnsureValidatedAsync(updateModel);
+
+        var existUser = await unitOfWork.Users.SelectAsync(u => u.Id == id, includes: ["UserDetail.Picture"])
+            ?? throw new NotFoundException($"User is not found with this ID {id}");
+
+        var alreadyExistUser = await unitOfWork.Users
+            .SelectAsync(u => u.UserName.ToLower() == updateModel.UserName.ToLower() && u.Id != id);
+
+        if (alreadyExistUser is not null)
+            throw new AlreadyExistException($"User is already exist with this username {updateModel.UserName}");
+
+        mapper.Map(updateModel, existUser);
+        existUser.UpdatedAt = DateTime.UtcNow;
+        await unitOfWork.SaveAsync();
+
+        return mapper.Map<UserViewModel>(existUser);
+    }
+
+    public async Task<bool> DeleteAsync(long id)
+    {
+        var existUser = await unitOfWork.Users.SelectAsync(u => u.Id == id)
+           ?? throw new NotFoundException($"User is not found with this ID {id}");
+
+        existUser.DeletedAt = DateTime.UtcNow;
+        existUser.IsDeleted = true;
+        return await unitOfWork.SaveAsync();
+    }
+
+    public async Task<UserViewModel> GetByIdAsync(long id)
+    {
+        var existUser = await unitOfWork.Users.SelectAsync(expression: u => u.Id == id, includes: ["UserDetail.Picture"])
+          ?? throw new NotFoundException($"User is not found with this ID {id}");
+
+        return mapper.Map<UserViewModel>(existUser);
+    }
+
+    public async Task<UserViewModel> UploadPictureAsync(long id, AssetCreateModel picture)
+    {
+        await unitOfWork.BeginTransactionAsync();
+
+        var existUser = await unitOfWork.Users
+            .SelectAsync(user => user.Id == id, includes: ["UserDetail.Picture"])
+                ?? throw new NotFoundException($"User is not found with this ID={id}");
+
+        var createdPicture = await assetService.UploadAsync(picture);
+        existUser.UserDetail.PictureId = createdPicture.Id;
+        existUser.UpdatedAt = DateTime.UtcNow;
+
+        await unitOfWork.SaveAsync();
+        await unitOfWork.CommitTransactionAsync();
+
+        return mapper.Map<UserViewModel>(existUser);
+    }
+
+    public async Task<UserViewModel> DeletePictureAsync(long id)
+    {
+        await unitOfWork.BeginTransactionAsync();
+        var existUser = await unitOfWork.Users.SelectAsync(u => u.Id == id && !u.IsDeleted, ["UserDetail.Picture"])
+            ?? throw new NotFoundException("User is not found");
+
+        if(existUser.UserDetail.PictureId != Asset.DefaultPictureId)
+            await assetService.DeleteAsync(Convert.ToInt64(existUser.UserDetail.PictureId));
+
+        existUser.UserDetail.PictureId = Asset.DefaultPictureId;
+        await unitOfWork.SaveAsync();
+        await unitOfWork.CommitTransactionAsync();
+
+        return mapper.Map<UserViewModel>(existUser);
+    }
 }
