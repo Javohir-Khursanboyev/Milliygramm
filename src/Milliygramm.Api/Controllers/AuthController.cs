@@ -10,7 +10,7 @@ public sealed class AuthController(IAuthService authService) : ControllerBase
 {
     [HttpPost("login")]
     [AllowAnonymous]
-    public async ValueTask<IActionResult> LoginAsync([FromBody] LoginModel loginModel)
+    public async Task<IActionResult> LoginAsync([FromBody] LoginModel loginModel)
     {
         return Ok(new Response
         {

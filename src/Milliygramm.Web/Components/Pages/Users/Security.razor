@@ -1,0 +1,128 @@
+﻿@page "/users/Security"
+
+@layout EmptyLayout
+
+<h3>Security</h3>
+<p>Edit your account settings and change your password here.</p>
+
+
+@if (showError)
+{
+    <div class="alert alert-danger mb-4">
+        @errorMessage
+    </div>
+}
+
+<h4>Email Address</h4>
+<p>
+    Your current email address is
+    <span class="text-success">@User.Email</span>
+</p>
+
+<EditForm Model="@User" OnValidSubmit="HandleChangeEmail">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="mb-3 col-lg-6 col-md-12 col-12">
+        <label class="form-label" for="email">New email address</label>
+        <InputText id="email" @bind-Value="User.Email" class="form-control" placeholder="New email address" />
+        <button type="submit" class="btn btn-primary mt-2">Update Details</button>
+    </div>
+</EditForm>
+
+<hr class="my-5" />
+
+<h4>Change Password</h4>
+<p>
+    We will email you a confirmation when changing your
+    password, so please expect that email after submitting.
+</p>
+
+<EditForm Model="@PasswordChangeModel" OnValidSubmit="HandleChangePassword">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="col-lg-6 col-md-12 col-12">
+        <div class="mb-3">
+            <label class="form-label" for="currentpassword">Current password</label>
+            <InputText id="currentpassword" type="password" @bind-Value="PasswordChangeModel.CurrentPassword" class="form-control" placeholder="Current password" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="newpassword">New password</label>
+            <InputText id="newpassword" type="password" @bind-Value="PasswordChangeModel.NewPassword" class="form-control" placeholder="New password" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="confirmpassword">Confirm New Password</label>
+            <InputText id="confirmpassword" type="password" @bind-Value="PasswordChangeModel.ConfirmPassword" class="form-control" placeholder="Confirm New Password" />
+        </div>
+        <button type="submit" class="btn btn-primary">Save Password</button>
+    </div>
+</EditForm>
+
+<div class="col-12 mt-4">
+    <p class="mb-0">
+        Can't remember your current password?
+        <a href="/Users/ForgotPassword">Reset your password via email</a>
+    </p>
+</div>
+
+<h3>Delete your account</h3>
+<p>Delete or Close your account permanently.</p>
+
+<div class="card-body p-4">
+    <span class="text-danger h4">Warning</span>
+    <p>
+        If you close your account, you will be unsubscribed from all
+        your courses, and will lose access forever.
+    </p>
+    <button type="button" class="btn btn-danger" @onclick="HandleDeleteAccount">Close My Account</button>
+</div>
+
+@code {
+    private UserViewModel User = new UserViewModel();
+    private PasswordChangeModel PasswordChangeModel = new PasswordChangeModel();
+    private string ServiceError;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Load user data from API or service
+        User = await Http.GetFromJsonAsync<UserViewModel>("api/user");
+    }
+
+    private async Task HandleChangeEmail()
+    {
+        // Call API to change email
+        var response = await Http.PostAsJsonAsync("api/user/change-email", User);
+        if (!response.IsSuccessStatusCode)
+        {
+            ServiceError = "Failed to change email.";
+        }
+    }
+
+    private async Task HandleChangePassword()
+    {
+        // Call API to change password
+        var response = await Http.PostAsJsonAsync("api/user/change-password", PasswordChangeModel);
+        if (!response.IsSuccessStatusCode)
+        {
+            ServiceError = "Failed to change password.";
+        }
+    }
+
+    private async Task HandleDeleteAccount()
+    {
+        // Call API to delete account
+        var response = await Http.PostAsync("api/user/delete-account", null);
+        if (!response.IsSuccessStatusCode)
+        {
+            ServiceError = "Failed to delete account.";
+        }
+    }
+
+    public class PasswordChangeModel
+    {
+        public string CurrentPassword { get; set; }
+        public string NewPassword { get; set; }
+        public string ConfirmPassword { get; set; }
+    }
+}

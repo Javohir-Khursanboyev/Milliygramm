@@ -7,7 +7,7 @@ namespace Milliygramm.Web.Service.Services.Auth;
 
 public sealed class AuthApiService(IApiService apiService) : IAuthApiService
 {
-    private const string baseUri = "/api/Account";
+    private const string baseUri = "/api/Auth";
 
     public async Task<LoginViewModel> LoginAsync(LoginModel loginModel)
     {
