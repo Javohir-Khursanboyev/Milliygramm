@@ -11,4 +11,5 @@ public interface IUserService
     Task<bool> DeleteAsync(long id);
     Task<UserViewModel> GetByIdAsync(long id);
     Task<UserViewModel> UploadPictureAsync(long id, AssetCreateModel picture);
+    Task<UserViewModel> DeletePictureAsync(long id);
 }
