@@ -6,7 +6,7 @@ namespace Milliygramm.Api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-[CustomAuthorize]
+//[CustomAuthorize]
 public class ControllerBase : Controller
 {
 }

@@ -8,6 +8,7 @@ using Milliygramm.Service.Services.Assets;
 using Milliygramm.Service.Services.Auth;
 using Milliygramm.Service.Services.UserDetails;
 using Milliygramm.Service.Services.Users;
+using Milliygramm.Service.Validators.Assets;
 using Milliygramm.Service.Validators.Auth;
 using Milliygramm.Service.Validators.Users;
 
@@ -34,7 +35,11 @@ public static class ServicesCollection
     public static void AddValidators(this IServiceCollection services)
     {
         services.AddTransient<UserCreateModelValidator>();
+        services.AddTransient<UserUpdateModelValidator>();
         services.AddTransient<LoginModelValidator>();
+        services.AddTransient<ChangePasswordValidator>();
+        services.AddTransient<AssetCreateModelValidator>();
+        services.AddTransient<UserDetailUpdateModelValidator>();
     }
 
     public static void InjectEnvironmentItems(this WebApplication app)
