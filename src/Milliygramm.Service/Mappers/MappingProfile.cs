@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Milliygramm.Domain.Entities;
 using Milliygramm.Model.DTOs.Assets;
+using Milliygramm.Model.DTOs.Chats;
 using Milliygramm.Model.DTOs.Users;
 
 namespace Milliygramm.Service.Mappers;
@@ -18,5 +19,8 @@ public class MappingProfile : Profile
         CreateMap<UserDetailCreateModel, UserDetail>().ReverseMap();
         CreateMap<UserDetailUpdateModel, UserDetail>().ReverseMap();
         CreateMap<UserDetail, UserDetailViewModel>().ReverseMap();
+
+        CreateMap<ChatCreateModel, Chat>().ReverseMap();
+        CreateMap<Chat, ChatVievModel>().ReverseMap();
     }
 }
