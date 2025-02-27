@@ -399,13 +399,6 @@ FodyWeavers.xsd
 *.sln.iml
 /Qualification.Api/wwwroot/Certificates
 
-# SQLite database files
-*.db
-*.sqlite
-*.sqlite3
-*.db-shm
-*.db-wal
-
 # Sensitive configuration files
 appsettings.json
 appsettings.*.json
