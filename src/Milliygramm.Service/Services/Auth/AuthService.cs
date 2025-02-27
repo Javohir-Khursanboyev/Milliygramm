@@ -9,7 +9,10 @@ using Milliygramm.Service.Validators.Auth;
 
 namespace Milliygramm.Service.Services.Auth;
 
-public sealed class AuthService(IMapper mapper, IUnitOfWork unitOfWork, LoginModelValidator loginValidator) : IAuthService
+public sealed class AuthService(
+    IMapper mapper, IUnitOfWork unitOfWork, 
+    LoginModelValidator loginValidator,
+    ChangePasswordValidator passwordValidator) : IAuthService
 {
     public async Task<LoginViewModel> LoginAsync(LoginModel loginModel)
     {
@@ -27,6 +30,25 @@ public sealed class AuthService(IMapper mapper, IUnitOfWork unitOfWork, LoginMod
             User = mapper.Map<UserViewModel>(existUser),
             Token = AuthHelper.GenerateToken(existUser)
         };
+    }
+
+    public async Task<bool> ChangePasswordAsync(long id, ChangePassword changePassword)
+    {
+        await passwordValidator.EnsureValidatedAsync(changePassword);
+
+        var existUser = await unitOfWork.Users.SelectAsync(u => u.Id == id)
+            ?? throw new NotFoundException($"User is not found with this ID {id}");
+
+        if (!PasswordHasher.Verify(changePassword.Password, existUser.Password))
+            throw new ArgumentIsNotValidException("Password is incorrect");
+
+        if (changePassword.NewPassword != changePassword.ConfirmPassword)
+            throw new ArgumentIsNotValidException("Confirm password is incorrect");
+
+        existUser.Password = PasswordHasher.Hash(changePassword.NewPassword);
+        existUser.UpdatedAt = DateTime.UtcNow;
+
+        return await unitOfWork.SaveAsync();
     }
 
     public async Task<bool> HasPermissionAsync(long userId, string action, string controller)
