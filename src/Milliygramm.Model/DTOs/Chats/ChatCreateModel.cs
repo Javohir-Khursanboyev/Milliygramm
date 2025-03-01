@@ -5,6 +5,7 @@ namespace Milliygramm.Model.DTOs.Chats;
 
 public sealed class ChatCreateModel
 {
+    public string Name { get; set; }
     public ChatType ChatType { get; set; }
     public long OwnerId { get; set; }
     public long? GroupId { get; set; }
