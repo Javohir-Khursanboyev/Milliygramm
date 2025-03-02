@@ -1,0 +1,142 @@
+﻿.container {
+    width: 100%;
+    max-width: 1150px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.header {
+    padding-top: 20px;
+    background-color: #FFF9F2;
+    width : 100%;
+}
+
+.header__inner {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    width: 100%;
+}
+
+.hamburger-button {
+    display: none;
+    background-color: transparent;
+    border: none;
+}
+
+.hamburger-img {
+    display: block;
+    width: 20px;
+    height: 17px;
+}
+
+@media only screen and (max-width: 520px) {
+    .navbar, .nav__item {
+        display: none;
+    }
+
+    .hamburger-button {
+        display: block;
+    }
+}
+
+.nav {
+    margin-left: auto;
+}
+
+.nav__list {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav__item {
+    margin-left: 24px;
+}
+
+.nav__link {
+    text-decoration: none;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 28px;
+    color: #22343d;
+}
+
+.nav__link--active {
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 28px;
+    color: #22343d;
+}
+
+.nav__link:hover {
+    text-decoration: underline;
+}
+
+.nav__link:active {
+    text-decoration: none;
+    color: red;
+}
+
+.nav__button {
+    padding: 9px 24px;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    color: #173a56;
+    background-color: transparent;
+    border: 1px solid #bcd0e5;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.nav__In:hover {
+    background-color: #EAC2E6;
+    color: #ffffff;
+}
+
+.nav__In:active {
+    background-color: #EAC2E6;
+    color: #ffffff;
+}
+
+.nav__up {
+    color: #000000;
+    border: none;
+    background-color: #EAC2E6;
+    border-radius: 4px;
+}
+
+    .nav__up:hover {
+        background-color: #FF851B;
+    }
+
+    .nav__up:active {
+        background-color: #05b39e;
+    }
+
+.nav__icon {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    text-align: center;
+    padding: 6px;
+    background-color: #F3F3F3;
+    border: none;
+    border-radius: 100px;
+}
