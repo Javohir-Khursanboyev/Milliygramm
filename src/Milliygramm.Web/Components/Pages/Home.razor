@@ -1,6 +1,7 @@
 ﻿@page "/"
 
 @layout HomeLayout
+@rendermode InteractiveServer
 
 <main>
     <section class="hero">
@@ -12,7 +13,7 @@
 
                     <p class="hero__text">Do‘stlar bilan bemalol, xavfsiz va qulay muloqot qiling. MilliyChat orqali do‘stlaringiz bilan video, audio va matnli xabarlar yuboring, yangi odamlar bilan tanishing hamda eng so‘nggi yangiliklardan xabardor bo‘ling.</p>
 
-                    <button class="hero__btn nav__button nav__up" type="button">Get started</button>
+                    <button class="hero__btn nav__button nav__up" type="button" @onclick="NavigateToRegister">Get started</button>
                 </div>
 
                 <img class="hero__img" src="/Images/hero-img.png" alt="Site-hero image" width="600" height="556">
