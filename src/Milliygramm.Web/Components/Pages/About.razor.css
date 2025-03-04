@@ -1,0 +1,78 @@
+﻿
+.about-section {
+    background-color: #FFF9F2;
+    padding: 10px;
+    font-family: Arial, sans-serif;
+    width: 70%;
+    margin: 0 auto; /* Markazga joylashtirish */
+}
+
+    .about-section h2 {
+        font-size: 36px;
+        color: #000;
+    }
+
+.separator {
+    border-top: 2px dotted #000;
+    margin: 10px 0 20px;
+}
+
+.about-content {
+    border: 2px solid #000;
+    border-radius: 10px;
+    padding: 20px;
+    max-width: 500px;
+    font-size: 16px;
+    line-height: 1.6;
+    margin-left: auto; /* O‘ngga surish */
+    margin-right: 0;
+}
+
+.team-section {
+    background-color: #FFF9F2;
+    padding: 10px;
+    font-family: Arial, sans-serif;
+    width: 70%;
+    margin: 0 auto; /* Markazga joylashtirish */
+}
+
+    .team-section h2 {
+        font-size: 36px;
+        color: #000;
+    }
+
+.team-content {
+    border-radius: 10px;
+    padding: 20px;
+    max-width: 500px;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+
+.team-member {
+    display: flex;
+    align-items: center; /* Picture, name va role bir qatorda */
+    gap: 20px; /* Rasmlar va matnlar orasidagi bo'shliq */
+    margin-bottom: 20px; /* Har bir a'zodan keyin bo'shliq */
+    width: 100%; /* To'liq kenglik */
+}
+
+.team-member-image {
+    width: 100px; /* Rasm o'lchami */
+    height: 100px;
+    border-radius: 20%; /* Aylana shaklida rasm */
+    object-fit: cover; /* Rasmni to'g'ri joylashtirish */
+}
+
+.team-member h3 {
+    margin: 0;
+    font-size:20px;
+}
+
+.team-member p {
+    margin: 0;
+    color: #666; /* Role uchun rang */
+    margin-left: auto; /* O‘ngga surish */
+    margin-right: 0;
+}

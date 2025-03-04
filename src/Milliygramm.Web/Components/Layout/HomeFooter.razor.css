@@ -1,0 +1,84 @@
+﻿.footer {
+    background-color: #FFF9F2;
+    color: #000000;
+    padding: 20px 0;
+    font-family: Arial, sans-serif;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.footer-section {
+    margin: 10px 20px;
+}
+    .footer-section h3, .footer-section h4 {
+        margin-bottom: 10px;
+        font-size: 18px;
+        color: #000000;
+    }
+
+    .footer-section p, .footer-section ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+        .footer-section ul li {
+            margin-bottom: 8px;
+        }
+
+            .footer-section ul li a {
+                color: #000000;
+                text-decoration: none;
+                transition: color 0.3s;
+            }
+
+                .footer-section ul li a:hover {
+                    color: #000000;
+                }
+
+.footer-bottom {
+    text-align: center;
+    padding: 10px 0;
+    border-top: 1px solid #000000;
+    margin-top: 20px;
+}
+
+    .footer-bottom p {
+        margin: 0;
+        font-size: 14px;
+    }
+
+/* Ijtimoiy tarmoqlar uchun iconlar */
+.social-icons {
+    list-style: none;
+    padding: 0;
+}
+
+    .social-icons li {
+        margin-bottom: 10px;
+    }
+
+        .social-icons li a {
+            display: flex;
+            align-items: center;
+            color: #000000; /* Matn rangi qora */
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+            .social-icons li a:hover {
+                color: #000000; /* Hoverda rang o'zgartirilmasin */
+            }
+
+            .social-icons li a i {
+                font-size: 20px;
+                margin-right: 10px;
+                color: #000000; /* Iconlar rangi qora */
+            }

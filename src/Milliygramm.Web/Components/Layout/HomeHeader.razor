@@ -1,0 +1,32 @@
+﻿@rendermode InteractiveServer
+
+<header class="header">
+    <div class="container">
+        <div class="header__inner">
+            <a class="logo" href="/">
+                <img class="logo__img" src="/Images/Logo.png" width="170px">
+            </a>
+
+            <nav class="nav">
+                <ul class="nav__list">
+                    <li class="nav__item">
+                        <a class="nav__link nav__link--active" href="/">   <main>MillyChat</main></a>
+                    </li>
+                    <li class="nav__item">
+                        <a class="nav__link" href="/About">About</a>
+                    </li>
+                    <li class="nav__item">
+                        <a class="nav__link" href="/">Contact</a>
+                    </li>
+                    <li class="nav__item">  
+                        <button class="nav__button nav__In" type="button" @onclick="NavigateToLogin">Sign In</button>
+                    </li>
+                    <li class="nav__item">
+                        <button class="nav__button nav__up" type="button" @onclick="NavigateToRegister">Sign Up</button>
+                    </li>
+                </ul>
+            </nav>
+
+        </div>
+    </div>
+</header>
