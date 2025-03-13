@@ -1,12 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Milliygramm.Model.ApiModels;
+using Milliygramm.Model.DTOs.GroupDetails;
 using Milliygramm.Model.DTOs.Groups;
 using Milliygramm.Service.Configurations;
+using Milliygramm.Service.Services.GroupDetails;
 using Milliygramm.Service.Services.Groups;
 
 namespace Milliygramm.Api.Controllers;
 
-public sealed class GroupController(IGroupService service) : ControllerBase
+public sealed class GroupsController(IGroupService service) : ControllerBase
 {
     [HttpPost]
     public async Task<IActionResult> PostAsync([FromBody] GroupCreatModel creatModel)

@@ -2,6 +2,7 @@
 using Milliygramm.Domain.Entities;
 using Milliygramm.Model.DTOs.Assets;
 using Milliygramm.Model.DTOs.Chats;
+using Milliygramm.Model.DTOs.GroupDetails;
 using Milliygramm.Model.DTOs.Groups;
 using Milliygramm.Model.DTOs.Users;
 
@@ -24,8 +25,12 @@ public class MappingProfile : Profile
         CreateMap<ChatCreateModel, Chat>().ReverseMap();
         CreateMap<Chat, ChatVievModel>().ReverseMap();
 
-        CreateMap<Group, GroupCreatModel>().ReverseMap();
-        CreateMap<Group, GroupViewModel>().ReverseMap();
+        CreateMap<GroupCreatModel, Group>().ReverseMap();
+        CreateMap<GroupViewModel, Group>().ReverseMap();
         CreateMap<Group, GroupUpdateModel>().ReverseMap();
+
+        CreateMap<GroupDetailCreateModel, GroupDetail>().ReverseMap();
+        CreateMap<GroupDetail, GroupDetailVievModel>().ReverseMap();
+        CreateMap<GroupDetail, GroupDetailUpdateModel>().ReverseMap();
     }
 }

@@ -14,19 +14,30 @@ public sealed class ChatService(IMapper mapper, IUnitOfWork unitOfWork) : IChatS
     public async Task<ChatVievModel> CreatAsync(ChatCreateModel createModel)
     {
         var chat = mapper.Map<Chat>(createModel);
-        await unitOfWork.Chats.InsertAsync(chat);
+        var addedChat = await unitOfWork.Chats.InsertAsync(chat);
         await unitOfWork.SaveAsync();
-        return mapper.Map<ChatVievModel>(chat);
+        return mapper.Map<ChatVievModel>(addedChat);
     }
 
     public async Task<bool> DeleteAsync(long id)
     {
-        var existChat = await unitOfWork.Chats.SelectAsync(chat => chat.Id == id)
+        var existChat = await unitOfWork.Chats.SelectAsync(chat => chat.Id == id && !chat.IsDeleted)
             ?? throw new NotFoundException($"Chat is not found this id = {id}");
 
         existChat.DeletedAt = DateTime.UtcNow;
         await unitOfWork.Chats.DeleteAsync(existChat);
         return await unitOfWork.SaveAsync(); ;
+    }
+    public async Task<ChatVievModel> UpdateAsync(long id, ChatUpdateModel updateModel)
+    {
+        var existChat = await unitOfWork.Chats.SelectAsync(chat => chat.Id == id && !chat.IsDeleted)
+            ?? throw new NotFoundException($"Chat is not found this id = {id}");
+
+        existChat.UpdatedAt = DateTime.UtcNow;
+        existChat.Name = updateModel.name;
+        await unitOfWork.Chats.UpdateAsync(existChat);
+        await unitOfWork.SaveAsync();
+        return mapper.Map<ChatVievModel>(existChat);
     }
     public async Task<ChatVievModel> GetByIdAsync(long id)
     {   
@@ -44,5 +55,4 @@ public sealed class ChatService(IMapper mapper, IUnitOfWork unitOfWork) : IChatS
         await chats.ToPaginateAsQueryable(@params).ToListAsync();
         return  mapper.Map<IEnumerable<ChatVievModel>>(chats);
     }
-
 }
