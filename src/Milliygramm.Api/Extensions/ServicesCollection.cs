@@ -6,10 +6,15 @@ using Milliygramm.Data.UnitOfWork;
 using Milliygramm.Service.Helpers;
 using Milliygramm.Service.Services.Assets;
 using Milliygramm.Service.Services.Auth;
+using Milliygramm.Service.Services.Chats;
+using Milliygramm.Service.Services.GroupDetails;
+using Milliygramm.Service.Services.Groups;
 using Milliygramm.Service.Services.UserDetails;
 using Milliygramm.Service.Services.Users;
 using Milliygramm.Service.Validators.Assets;
 using Milliygramm.Service.Validators.Auth;
+using Milliygramm.Service.Validators.GroupDetails;
+using Milliygramm.Service.Validators.Groups;
 using Milliygramm.Service.Validators.Users;
 
 public static class ServicesCollection
@@ -21,6 +26,9 @@ public static class ServicesCollection
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IUserDetailService, UserDetailService>();
+        services.AddScoped<IChatService , ChatService>();
+        services.AddScoped<IGroupService, GroupService>();
+        services.AddScoped<IGroupDetailService, GroupDetailService>();
     }
 
     public static void AddExceptionHandlers(this IServiceCollection services)
@@ -40,6 +48,10 @@ public static class ServicesCollection
         services.AddTransient<ChangePasswordValidator>();
         services.AddTransient<AssetCreateModelValidator>();
         services.AddTransient<UserDetailUpdateModelValidator>();
+        services.AddTransient<GroupCreatModelValidator>();
+        services.AddTransient<GroupUpdateModelValidator>();
+        services.AddTransient<GroupDetailCreateModelValidator>();
+        services.AddTransient<GroupDetailUpdateModelValidator>();
     }
 
     public static void InjectEnvironmentItems(this WebApplication app)
