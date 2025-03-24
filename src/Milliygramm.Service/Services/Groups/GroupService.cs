@@ -106,7 +106,7 @@ public sealed class GroupService(IMapper mapper,
     }
     public async Task<GroupViewModel> GetByIdAsync(long id)
     {
-        var existGroup = await unitOfWork.Groups.SelectAsync(group => group.Id == id && !group.IsDeleted, includes:["GroupDetail.Asset"])
+        var existGroup = await unitOfWork.Groups.SelectAsync(group => group.Id == id && !group.IsDeleted, includes:["GroupDetail.Asset", "GroupMembers.Member"])
             ?? throw new NotFoundException($"Group is not found this id = {id}");
 
         return mapper.Map<GroupViewModel>( existGroup);
@@ -116,7 +116,7 @@ public sealed class GroupService(IMapper mapper,
         Filter filter,
         string search = null)
     {
-        var groups = unitOfWork.Groups.SelectAsQueryable(expression: group => !group.IsDeleted, includes: ["GroupDetail.Asset"] );
+        var groups = unitOfWork.Groups.SelectAsQueryable(expression: group => !group.IsDeleted, includes: ["GroupDetail.Asset" , "GroupMembers.Member"]);
         if(!string.IsNullOrEmpty(search))
             groups = groups.Where(chat => chat.Name.Contains(search, StringComparison.OrdinalIgnoreCase));
         await groups.ToPaginateAsQueryable(@params).ToListAsync();

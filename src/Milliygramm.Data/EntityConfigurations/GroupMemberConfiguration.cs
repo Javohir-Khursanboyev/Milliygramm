@@ -16,6 +16,11 @@ public sealed class GroupMemberConfiguration : IEntityTypeConfiguration<GroupMem
         .WithMany(g => g.GroupMembers)
         .HasForeignKey(gm => gm.GroupId)
         .OnDelete(DeleteBehavior.Cascade); // Guruh o‘chsa, a'zolik ham o‘chadi
+
+        builder.HasOne(gm => gm.Member)
+           .WithMany()
+           .HasForeignKey(gm => gm.MemberId)
+           .OnDelete(DeleteBehavior.Cascade); // Agar foydalanuvchi o‘chirilsa, bog‘langan group member ham o‘chadi
     }
 }
 
