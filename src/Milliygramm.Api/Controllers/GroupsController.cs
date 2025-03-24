@@ -21,7 +21,7 @@ public sealed class GroupsController(IGroupService service) : ControllerBase
         });
     }
 
-    [HttpDelete]
+    [HttpDelete("{id:long}")]
     public async Task<IActionResult> DeleteAsync(long id)
     {
         return Ok(new Response

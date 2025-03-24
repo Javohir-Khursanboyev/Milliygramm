@@ -8,6 +8,7 @@ using Milliygramm.Service.Services.Assets;
 using Milliygramm.Service.Services.Auth;
 using Milliygramm.Service.Services.Chats;
 using Milliygramm.Service.Services.GroupDetails;
+using Milliygramm.Service.Services.GroupMembers;
 using Milliygramm.Service.Services.Groups;
 using Milliygramm.Service.Services.UserDetails;
 using Milliygramm.Service.Services.Users;
@@ -29,6 +30,7 @@ public static class ServicesCollection
         services.AddScoped<IChatService , ChatService>();
         services.AddScoped<IGroupService, GroupService>();
         services.AddScoped<IGroupDetailService, GroupDetailService>();
+        services.AddScoped<IGroupMemberService, GroupMemberService>();
     }
 
     public static void AddExceptionHandlers(this IServiceCollection services)
