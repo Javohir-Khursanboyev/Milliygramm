@@ -19,5 +19,6 @@ public sealed class UserApiService(IApiService apiService) : IUserApiService
             ?? throw new Exception("User data is invalid");
 
         return user;
+        //
     }
 }

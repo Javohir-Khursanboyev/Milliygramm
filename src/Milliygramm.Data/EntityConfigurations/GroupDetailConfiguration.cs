@@ -23,7 +23,7 @@ public sealed class GroupDetailConfiguration : IEntityTypeConfiguration<GroupDet
         builder.Property(gd => gd.Description).HasMaxLength(255);
 
         builder.HasOne(gd => gd.Asset)
-            .WithOne()
-            .HasForeignKey<GroupDetail>(gd => gd.PictureId);    
+            .WithMany()
+            .HasForeignKey(gd => gd.PictureId);    
     }
 }

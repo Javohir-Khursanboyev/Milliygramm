@@ -19,5 +19,6 @@ public sealed class GroupConfiguration : IEntityTypeConfiguration<Group>
         builder.HasOne(group => group.GroupDetail)
              .WithOne()
              .HasForeignKey<GroupDetail>(groupDetail => groupDetail.GroupId);
+
     }
 }
