@@ -23,7 +23,7 @@ public sealed partial class Login
             var res = await authApiService.LoginAsync(loginModel);
             if (res is not null)
             {
-                navigationManager.NavigateTo("/");
+                navigationManager.NavigateTo("/user/dashboard");
             }
         }
         catch (Exception ex)
