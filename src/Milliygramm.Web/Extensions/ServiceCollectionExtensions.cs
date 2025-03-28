@@ -1,10 +1,12 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Milliygramm.Web.Service.Services.Auth;
-using Milliygramm.Web.Service.Services.Base;
-using Milliygramm.Web.Service.Services.Users;
+﻿using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
+using Milliygramm.Web.Authorization;
+using Milliygramm.Web.Services.Auth;
+using Milliygramm.Web.Services.Base;
+using Milliygramm.Web.Services.Users;
 
-namespace Milliygramm.Web.Service.Extensions;
+
+namespace Milliygramm.Web.Extensions;
 
 public static class ServiceCollectionExtensions
 {
@@ -18,6 +20,11 @@ public static class ServiceCollectionExtensions
 
         services.AddScoped<IAuthApiService, AuthApiService>();
         services.AddScoped<IUserApiService, UserApiService>();
+
+        services.AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>();
+        services.AddScoped<ProtectedLocalStorage>();
+
+        services.AddAuthorizationCore();
 
         return services;
     }

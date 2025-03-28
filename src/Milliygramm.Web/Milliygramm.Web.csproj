@@ -14,11 +14,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.6.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Milliygramm.Model\Milliygramm.Model.csproj" />
-    <ProjectReference Include="..\Milliygramm.Web.Service\Milliygramm.Web.Service.csproj" />
   </ItemGroup>
 
 </Project>

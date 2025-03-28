@@ -19,8 +19,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Milliygramm.Service", "src\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Milliygramm.Database", "src\Milliygramm.Database\Milliygramm.Database.csproj", "{AE8EF7F9-8256-47E9-959A-8BAF1E5BEA84}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Milliygramm.Web.Service", "src\Milliygramm.Web.Service\Milliygramm.Web.Service.csproj", "{CC8E67E9-6202-4445-9257-989AE4B523CA}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,10 +53,6 @@ Global
 		{AE8EF7F9-8256-47E9-959A-8BAF1E5BEA84}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AE8EF7F9-8256-47E9-959A-8BAF1E5BEA84}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AE8EF7F9-8256-47E9-959A-8BAF1E5BEA84}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CC8E67E9-6202-4445-9257-989AE4B523CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CC8E67E9-6202-4445-9257-989AE4B523CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CC8E67E9-6202-4445-9257-989AE4B523CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CC8E67E9-6202-4445-9257-989AE4B523CA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -71,6 +65,5 @@ Global
 		{755F48BA-B317-4D9A-86B5-055B1D879AB2} = {EC199CF0-AC70-4F9D-8B30-A31FF83536F6}
 		{061DF7ED-3748-4B85-BC21-F9492FBD152D} = {EC199CF0-AC70-4F9D-8B30-A31FF83536F6}
 		{AE8EF7F9-8256-47E9-959A-8BAF1E5BEA84} = {EC199CF0-AC70-4F9D-8B30-A31FF83536F6}
-		{CC8E67E9-6202-4445-9257-989AE4B523CA} = {EC199CF0-AC70-4F9D-8B30-A31FF83536F6}
 	EndGlobalSection
 EndGlobal

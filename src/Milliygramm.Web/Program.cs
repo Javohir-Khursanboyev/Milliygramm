@@ -1,5 +1,6 @@
+using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using Milliygramm.Web.Components;
-using Milliygramm.Web.Service.Extensions;
+using Milliygramm.Web.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 

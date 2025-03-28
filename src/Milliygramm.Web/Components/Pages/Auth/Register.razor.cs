@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Milliygramm.Model.DTOs.Users;
-using Milliygramm.Web.Service.Services.Users;
+using Milliygramm.Web.Services.Users;
 
 namespace Milliygramm.Web.Components.Pages.Auth;
 

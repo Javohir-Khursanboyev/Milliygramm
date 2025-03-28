@@ -1,9 +1,9 @@
 ﻿using Milliygramm.Model.ApiModels;
 using Milliygramm.Model.DTOs.Users;
-using Milliygramm.Web.Service.Services.Base;
+using Milliygramm.Web.Services.Base;
 using Newtonsoft.Json;
 
-namespace Milliygramm.Web.Service.Services.Users;
+namespace Milliygramm.Web.Services.Users;
 
 public sealed class UserApiService(IApiService apiService) : IUserApiService
 {
