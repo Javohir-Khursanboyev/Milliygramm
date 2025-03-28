@@ -1,6 +1,8 @@
-﻿using Milliygramm.Model.DTOs.Auth;
-using Microsoft.AspNetCore.Components;
-using Milliygramm.Web.Service.Services.Auth;
+﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
+using Milliygramm.Model.DTOs.Auth;
+using Milliygramm.Web.Authorization;
+using Milliygramm.Web.Services.Auth;
 
 namespace Milliygramm.Web.Components.Pages.Auth;
 
@@ -12,6 +14,9 @@ public sealed partial class Login
     [Inject]
     private NavigationManager navigationManager { get; set; }
 
+    [Inject]
+    private AuthenticationStateProvider authStateProvider {  get; set; }
+
     private LoginModel loginModel { get; set; } = new LoginModel();
     private bool showError = false;
     private string errorMessage = string.Empty;
@@ -21,8 +26,9 @@ public sealed partial class Login
         try
         {
             var res = await authApiService.LoginAsync(loginModel);
-            if (res is not null)
+            if (res is not null && res.Token is not null)
             {
+                await ((CustomAuthStateProvider)authStateProvider).MarkUserAsAuthenticated(res);
                 navigationManager.NavigateTo("/user/dashboard");
             }
         }

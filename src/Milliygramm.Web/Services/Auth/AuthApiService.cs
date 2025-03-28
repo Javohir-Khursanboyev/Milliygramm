@@ -1,9 +1,9 @@
 ﻿using Milliygramm.Model.ApiModels;
 using Milliygramm.Model.DTOs.Auth;
-using Milliygramm.Web.Service.Services.Base;
+using Milliygramm.Web.Services.Base;
 using Newtonsoft.Json;
 
-namespace Milliygramm.Web.Service.Services.Auth;
+namespace Milliygramm.Web.Services.Auth;
 
 public sealed class AuthApiService(IApiService apiService) : IAuthApiService
 {

@@ -1,10 +1,11 @@
-﻿using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Components.Authorization;
+﻿using System.Security.Claims;
 using Milliygramm.Model.DTOs.Auth;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 
 
-namespace Milliygramm.Web.Service.Authorization;
+namespace Milliygramm.Web.Authorization;
 
 public class CustomAuthStateProvider(ProtectedLocalStorage localStorage) : AuthenticationStateProvider
 {

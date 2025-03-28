@@ -1,7 +1,4 @@
-﻿using System;
-using System.Net.Sockets;
-using AutoMapper;
-using FluentValidation.Validators;
+﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Milliygramm.Data.UnitOfWork;
 using Milliygramm.Domain.Entities;

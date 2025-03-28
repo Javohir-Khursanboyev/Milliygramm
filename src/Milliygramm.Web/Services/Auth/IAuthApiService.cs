@@ -1,6 +1,6 @@
 ﻿using Milliygramm.Model.DTOs.Auth;
 
-namespace Milliygramm.Web.Service.Services.Auth;
+namespace Milliygramm.Web.Services.Auth;
 
 public interface IAuthApiService
 {

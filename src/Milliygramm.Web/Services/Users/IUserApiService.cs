@@ -1,6 +1,6 @@
 ﻿using Milliygramm.Model.DTOs.Users;
 
-namespace Milliygramm.Web.Service.Services.Users;
+namespace Milliygramm.Web.Services.Users;
 
 public interface IUserApiService
 {

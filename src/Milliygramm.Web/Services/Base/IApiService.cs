@@ -1,4 +1,4 @@
-﻿namespace Milliygramm.Web.Service.Services.Base;
+﻿namespace Milliygramm.Web.Services.Base;
 
 public interface IApiService
 {
