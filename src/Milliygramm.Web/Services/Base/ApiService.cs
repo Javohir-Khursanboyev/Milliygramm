@@ -28,24 +28,40 @@ public sealed class ApiService(HttpClient httpClient, ProtectedLocalStorage loca
     {
         await SetAuthorizeHeader();
         var res = await httpClient.PostAsJsonAsync(path, postModel);
-        var apiResponse = JsonConvert.DeserializeObject<T1>(await res.Content.ReadAsStringAsync())
+        return await HandleResponse<T1>(res);
+    }
+
+    public async Task<T> DeleteAsync<T>(string path)
+    {
+        await SetAuthorizeHeader();
+        var res = await httpClient.DeleteAsync(path);
+        return await HandleResponse<T>(res);
+    }
+
+    public async Task<T> GetFromJsonAsync<T>(string path)
+    {
+        await SetAuthorizeHeader();
+        var res = await httpClient.GetAsync(path);
+        return await HandleResponse<T>(res);
+    }
+
+    public async Task<T1> PutAsync<T1, T2>(string path, T2 postModel)
+    {
+        await SetAuthorizeHeader();
+        var res = await httpClient.PutAsJsonAsync(path, postModel);
+        return await HandleResponse<T1>(res);
+    }
+
+
+    private static async Task<T> HandleResponse<T>(HttpResponseMessage response)
+    {
+        var content = await response.Content.ReadAsStringAsync();
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new HttpRequestException($"Request failed with status {response.StatusCode}: {content}");
+        }
+
+        return JsonConvert.DeserializeObject<T>(content)
             ?? throw new Exception("Response deserialization failed");
-
-        return apiResponse;
-    }
-
-    public Task<T> DeleteAsync<T>(string path)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<T> GetFromJsonAsync<T>(string path)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<T1> PutAsync<T1, T2>(string path, T2 postModel)
-    {
-        throw new NotImplementedException();
     }
 }

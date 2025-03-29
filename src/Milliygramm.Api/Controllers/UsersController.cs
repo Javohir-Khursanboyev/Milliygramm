@@ -65,7 +65,7 @@ public sealed class UsersController(IUserService userService) : ControllerBase
         });
     }
 
-    [HttpPost("{id:long}/pictures/delete")]
+    [HttpDelete("{id:long}/pictures/delete")]
     public async Task<IActionResult> PictureDeleteAsync(long id)
     {
         return Ok(new Response

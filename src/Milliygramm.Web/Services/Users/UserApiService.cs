@@ -1,7 +1,8 @@
-﻿using Milliygramm.Model.ApiModels;
+﻿using Newtonsoft.Json;
+using Milliygramm.Model.ApiModels;
+using Milliygramm.Model.DTOs.Assets;
 using Milliygramm.Model.DTOs.Users;
 using Milliygramm.Web.Services.Base;
-using Newtonsoft.Json;
 
 namespace Milliygramm.Web.Services.Users;
 
@@ -14,11 +15,59 @@ public sealed class UserApiService(IApiService apiService) : IUserApiService
         if (!apiResponse.IsSuccess)
             throw new Exception(apiResponse.Message);
 
-        var userJson = JsonConvert.SerializeObject(apiResponse.Data);
-        var user = JsonConvert.DeserializeObject<UserViewModel>(userJson)
-            ?? throw new Exception("User data is invalid");
+        return DeserializeUser(apiResponse.Data);
+    }
 
-        return user;
-        //
+    public async Task<UserViewModel> UpdateAsync(long id, UserUpdateModel model)
+    {
+        var apiResponse = await apiService.PutAsync<Response, UserUpdateModel>($"{baseUri}/{id}", model);
+        if (!apiResponse.IsSuccess)
+            throw new Exception(apiResponse.Message);
+
+        return DeserializeUser(apiResponse.Data);
+    }
+
+    public async Task<bool> DeleteAsync(long id)
+    {
+        var apiResponse = await apiService.DeleteAsync<Response>($"{baseUri}/{id}");
+        if (!apiResponse.IsSuccess)
+            throw new Exception(apiResponse.Message);
+
+        return (bool)(apiResponse.Data ?? false);
+    }
+
+    public async Task<UserViewModel> GetByIdAsync(long id)
+    {
+        var apiResponse = await apiService.GetFromJsonAsync<Response>($"{baseUri}/{id}");
+        if (!apiResponse.IsSuccess)
+            throw new Exception(apiResponse.Message);
+
+        return DeserializeUser(apiResponse.Data);
+    }
+
+    public async Task<UserViewModel> UploadPictureAsync(long id, AssetCreateModel asset)
+    {
+        var apiResponse = await apiService.PostAsync<Response, AssetCreateModel>(
+            $"{baseUri}/{id}/pictures/upload",
+            asset
+        );
+        if (!apiResponse.IsSuccess)
+            throw new Exception(apiResponse.Message);
+
+        return DeserializeUser(apiResponse.Data);
+    }
+
+
+
+    private static UserViewModel DeserializeUser(object data)
+    {
+        var userJson = JsonConvert.SerializeObject(data);
+        return JsonConvert.DeserializeObject<UserViewModel>(userJson)
+            ?? throw new Exception("User data is invalid");
+    }
+
+    public Task<bool> DeletePictureAsync(long id)
+    {
+        throw new NotImplementedException();
     }
 }
