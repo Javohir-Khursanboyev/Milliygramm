@@ -1,10 +1,12 @@
 ﻿
 <div class="modal @(showModal ? "d-block": "d-none")" tabindex="-1">
-    <div class="modal-dialog">
+    <div class="modal-dialog" style="@Style">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">@Title</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @onclick="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @onclick="Close"
+                style="position: absolute; right: 1rem; top: 1rem; ">
+                </button>
             </div>
             <div class="modal-body">
                 @Body

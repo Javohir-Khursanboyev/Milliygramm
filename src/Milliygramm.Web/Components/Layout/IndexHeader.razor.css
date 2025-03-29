@@ -1,0 +1,124 @@
+﻿.container {
+    width: 100%;
+    max-width: 1150px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.header {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background-color: #FFF9F2;
+    width: 100%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.header__inner {
+    display: flex;
+    justify-content: flex-end; /* Align to right */
+    align-items: center;
+    width: 100%;
+}
+
+.profile-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px 16px; /* Increased padding */
+    border-radius: 24px; /* Slightly larger radius */
+    transition: all 0.2s ease;
+    background-color: rgba(255, 255, 255, 0.7); /* Light background */
+}
+
+    .profile-btn:hover {
+        background-color: rgba(0, 0, 0, 0.08);
+    }
+
+.avatar-container {
+    width: 40px; /* Slightly larger avatar */
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border: 2px solid #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.profile-info {
+    display: flex;
+    align-items: center; /* Changed to center for single line */
+    gap: 4px;
+    line-height: 1;
+}
+
+.greeting {
+    font-size: 14px; /* Slightly larger */
+    color: #666;
+}
+
+.username {
+    font-size: 15px; /* Slightly larger */
+    font-weight: 600;
+    color: #333;
+}
+
+/* Responsive adjustments */
+@@media (max-width: 768px) {
+    .profile-btn {
+        padding: 8px 12px;
+    }
+}
+
+.avatar-lg {
+    width: 60px; /* Slightly larger avatar */
+    height: 60px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.user-box {
+    display: flex;
+    gap: 15px;
+    padding: 15px;
+}
+
+.u-text {
+    flex-grow: 1;
+}
+    .u-text h4 {
+        margin: 0;
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #333;
+    }
+
+    .u-text .text-muted {
+        margin: 4px 0;
+        font-size: 0.9rem;
+        color: #6c757d;
+    }
+
+.btn-secondary {
+    border: 1px solid #dee2e6;
+    font-size: 0.8rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+}
+.dropdown-item {
+    display: block;
+    padding-left: 20px;
+    color: #333;
+    text-decoration: none;
+    transition: all 0.2s;
+    font-size: 0.95rem;
+}

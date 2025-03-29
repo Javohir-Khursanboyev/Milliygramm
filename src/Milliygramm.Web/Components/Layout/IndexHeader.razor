@@ -1,0 +1,45 @@
+﻿@using Milliygramm.Web.Components.Pages.Modals
+@rendermode InteractiveServer
+<header class="header">
+    <div class="container">
+        <div class="header__inner">
+            <button class="profile-btn" @onclick="()=> {Modal.Open();}">
+                <div class="avatar-container">
+                    <img src="@user?.UserDetail?.Picture?.Path"
+                         alt="User profile"
+                         class="avatar-img" />
+                </div>
+                <span class="profile-info">
+                    <span class="greeting">Hi,</span>
+                    <span class="username">@user?.FirstName</span>
+                </span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<AppModal @ref="Modal" Style="position: fixed; top: 60px; right: 80px; width: 300px;">
+    <Title>
+        <div class="user-box">
+            <div class="avatar-lg">
+                <img src="@user?.UserDetail?.Picture?.Path"
+                     alt="image profile"
+                     class="avatar-img" />
+            </div>
+            <div class="u-text">
+                <h4>@user?.FirstName</h4>
+                <p class="text-muted">@user?.UserName</p>
+                <a href="profile.html"
+                   class="btn btn-xs btn-secondary btn-sm">View Profile</a>
+            </div>
+        </div>
+    </Title>
+
+    <Body>
+        <a class="dropdown-item" href="#">Account Setting</a>
+    </Body>
+
+    <Footer>
+        <a class="dropdown-item" href="#">Logout</a>
+    </Footer>
+</AppModal>

@@ -12,6 +12,9 @@ public partial class AppModal
     public RenderFragment Footer { get; set; }
     private bool showModal = false;
 
+    [Parameter]
+    public string Style { get; set; } = "";
+
     public void Open()
     {
         showModal = true;
