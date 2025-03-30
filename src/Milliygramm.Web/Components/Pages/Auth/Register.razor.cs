@@ -7,10 +7,10 @@ namespace Milliygramm.Web.Components.Pages.Auth;
 public sealed partial class Register
 {
     [Inject]
-    IUserApiService userApiService { get; set; }
+    IUserApiService userApiService { get; set; } = default!;
 
     [Inject]
-    private NavigationManager navigationManager { get; set; }
+    private NavigationManager navigationManager { get; set; } = default!;
     private UserCreateModel createModel = new UserCreateModel();
     private bool showError = false;
     private string errorMessage = string.Empty;

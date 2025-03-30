@@ -1,1 +1,15 @@
-﻿
+﻿@page "/user/profile"
+
+<div class="settings-container">
+    <h4>Account settings</h4>
+
+    <div class="profile-section">
+        <img src="@userModel?.UserDetail?.Picture?.Path" class="profile-img" alt="Profile Image">
+        <div>
+            <label>Upload New Image</label>
+            <InputFile OnChange="HandleImageUpload" class="form-control" />
+            <button class="btn btn-primary mt-2" @onclick="UploadImage">Upload Image</button>
+        </div>
+    </div>
+
+</div>

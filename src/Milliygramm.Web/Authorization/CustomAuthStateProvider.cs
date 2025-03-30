@@ -3,6 +3,7 @@ using Milliygramm.Model.DTOs.Auth;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
+using Milliygramm.Model.DTOs.Users;
 
 
 namespace Milliygramm.Web.Authorization;
@@ -31,6 +32,12 @@ public class CustomAuthStateProvider(ProtectedLocalStorage localStorage) : Authe
         var identity = new ClaimsIdentity();
         var user = new ClaimsPrincipal(identity);
         NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(user)));
+    }
+
+    public async Task<UserViewModel> GetCurrentUser()
+    {
+        var sessionModel = (await localStorage.GetAsync<LoginViewModel>("sessionState")).Value;
+        return sessionModel?.User?? default!;
     }
 
     private ClaimsIdentity GetClaimsIdentity(string token)

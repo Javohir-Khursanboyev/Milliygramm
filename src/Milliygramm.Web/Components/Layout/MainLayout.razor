@@ -1,12 +1,13 @@
 ﻿@inherits LayoutComponentBase
 
-<div class="page">
-    <IndexHeader />
-    
-    <div class="main-content">
-        <article class="content">
-            @Body
-        </article>
-    </div>
+@if(IsShowContent){
+    <div class="page">
+        <IndexHeader user="@userModel"/>
+        <div class="main-content">
+            <article class="content">
+                @Body
+            </article>
+        </div>
 
-</div>
+    </div>
+}

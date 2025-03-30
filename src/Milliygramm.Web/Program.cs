@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using Milliygramm.Web.Components;
 using Milliygramm.Web.Extensions;
 
@@ -9,6 +8,9 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
 builder.Services.AddWebServices(builder.Configuration);
+
+builder.Services.AddAuthentication();
+builder.Services.AddAuthorization();
 
 var app = builder.Build();
 

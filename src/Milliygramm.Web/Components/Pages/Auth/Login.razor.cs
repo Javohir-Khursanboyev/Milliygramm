@@ -9,13 +9,13 @@ namespace Milliygramm.Web.Components.Pages.Auth;
 public sealed partial class Login
 {
     [Inject]
-    private IAuthApiService authApiService { get; set; }
+    private IAuthApiService authApiService { get; set; } = default!;
 
     [Inject]
-    private NavigationManager navigationManager { get; set; }
+    private NavigationManager navigationManager { get; set; } = default!;
 
     [Inject]
-    private AuthenticationStateProvider authStateProvider {  get; set; }
+    private AuthenticationStateProvider authStateProvider { get; set; } = default!;
 
     private LoginModel loginModel { get; set; } = new LoginModel();
     private bool showError = false;

@@ -3,7 +3,7 @@
 <header class="header">
     <div class="container">
         <div class="header__inner">
-            <button class="profile-btn" @onclick="()=> {Modal.Open();}">
+            <button class="profile-btn" @onclick="()=> {Modal?.Open();}">
                 <div class="avatar-container">
                     <img src="@user?.UserDetail?.Picture?.Path"
                          alt="User profile"
@@ -29,17 +29,18 @@
             <div class="u-text">
                 <h4>@user?.FirstName</h4>
                 <p class="text-muted">@user?.UserName</p>
-                <a href="profile.html"
-                   class="btn btn-xs btn-secondary btn-sm">View Profile</a>
+                <a href="/user/profile"
+                   class="btn btn-xs btn-secondary btn-sm"
+                   @onclick="()=> {Modal?.Close();}">View Profile</a>
             </div>
         </div>
     </Title>
 
     <Body>
-        <a class="dropdown-item" href="#">Account Setting</a>
+        <a class="dropdown-item" href="/user/settings" @onclick="()=> {Modal?.Close();}">Account Setting</a>
     </Body>
 
     <Footer>
-        <a class="dropdown-item" href="#">Logout</a>
+        <a class="dropdown-item" href="/auth/logout">Logout</a>
     </Footer>
 </AppModal>
