@@ -62,7 +62,7 @@ namespace Milliygramm.Data.Migrations
                             FileType = 1,
                             IsDeleted = false,
                             Name = "DefaultImage.png",
-                            Path = "/images/DefaultImage.png"
+                            Path = "/assets/images/DefaultImage.png"
                         });
                 });
 

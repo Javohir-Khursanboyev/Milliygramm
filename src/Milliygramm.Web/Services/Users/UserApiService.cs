@@ -45,19 +45,14 @@ public sealed class UserApiService(IApiService apiService) : IUserApiService
         return DeserializeUser(apiResponse.Data);
     }
 
-    public async Task<UserViewModel> UploadPictureAsync(long id, AssetCreateModel asset)
+    public async Task<UserViewModel> UploadPictureAsync(long id, MultipartFormDataContent content)
     {
-        var apiResponse = await apiService.PostAsync<Response, AssetCreateModel>(
-            $"{baseUri}/{id}/pictures/upload",
-            asset
-        );
+        var apiResponse = await apiService.PostMultipartFormDataAsync<Response>($"{baseUri}/{id}/pictures/upload", content);
         if (!apiResponse.IsSuccess)
             throw new Exception(apiResponse.Message);
 
         return DeserializeUser(apiResponse.Data);
     }
-
-
 
     private static UserViewModel DeserializeUser(object data)
     {

@@ -52,6 +52,13 @@ public sealed class ApiService(HttpClient httpClient, ProtectedLocalStorage loca
         return await HandleResponse<T1>(res);
     }
 
+    public async Task<T> PostMultipartFormDataAsync<T>(string path, MultipartFormDataContent content)
+    {
+        await SetAuthorizeHeader();
+        var response = await httpClient.PostAsync(path, content);
+        return await HandleResponse<T>(response);
+    }
+
 
     private static async Task<T> HandleResponse<T>(HttpResponseMessage response)
     {

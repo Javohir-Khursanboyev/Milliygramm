@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Milliygramm.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class initialmigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -312,7 +312,7 @@ namespace Milliygramm.Data.Migrations
             migrationBuilder.InsertData(
                 table: "assets",
                 columns: new[] { "Id", "CreatedAt", "DeletedAt", "FileType", "IsDeleted", "Name", "Path", "UpdatedAt" },
-                values: new object[] { 1L, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 1, false, "DefaultImage.png", "/images/DefaultImage.png", null });
+                values: new object[] { 1L, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 1, false, "DefaultImage.png", "/assets/images/DefaultImage.png", null });
 
             migrationBuilder.InsertData(
                 table: "roles",
@@ -360,8 +360,7 @@ namespace Milliygramm.Data.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_group_details_PictureId",
                 table: "group_details",
-                column: "PictureId",
-                unique: true);
+                column: "PictureId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_group_members_GroupId",

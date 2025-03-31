@@ -11,8 +11,8 @@ using Milliygramm.Data.DbContexts;
 namespace Milliygramm.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250226111828_Initial-Migration")]
-    partial class InitialMigration
+    [Migration("20250331132805_initial-migration")]
+    partial class initialmigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -65,7 +65,7 @@ namespace Milliygramm.Data.Migrations
                             FileType = 1,
                             IsDeleted = false,
                             Name = "DefaultImage.png",
-                            Path = "/images/DefaultImage.png"
+                            Path = "/assets/images/DefaultImage.png"
                         });
                 });
 
@@ -189,8 +189,7 @@ namespace Milliygramm.Data.Migrations
                     b.HasIndex("Link")
                         .IsUnique();
 
-                    b.HasIndex("PictureId")
-                        .IsUnique();
+                    b.HasIndex("PictureId");
 
                     b.ToTable("group_details", (string)null);
                 });
@@ -506,8 +505,8 @@ namespace Milliygramm.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("Milliygramm.Domain.Entities.Asset", "Asset")
-                        .WithOne()
-                        .HasForeignKey("Milliygramm.Domain.Entities.GroupDetail", "PictureId");
+                        .WithMany()
+                        .HasForeignKey("PictureId");
 
                     b.Navigation("Asset");
                 });
