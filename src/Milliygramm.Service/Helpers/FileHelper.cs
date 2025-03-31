@@ -17,7 +17,7 @@ public static class FileHelper
         await asset.File.CopyToAsync(stream);
         stream.Close();
 
-        return ($"/{asset.FileType}/{fileName}", fileName);
+        return ($"/assets/{asset.FileType}/{fileName}", fileName);
     }
 
     private static string MakeFileName(string fileName)
