@@ -42,7 +42,7 @@ public partial class Profile
             content.Add(new StringContent(FileType.Images.ToString()), "fileType");
 
             userModel = await userApiService.UploadPictureAsync(userModel.Id, content);
-
+            await ((CustomAuthStateProvider)AuthStateProvider).SetCurrentUser(userModel, true);
             StateHasChanged();
         }
         catch (Exception ex)

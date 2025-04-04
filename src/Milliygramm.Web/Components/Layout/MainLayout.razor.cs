@@ -2,6 +2,8 @@
 using Milliygramm.Web.Authorization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
+using Milliygramm.Model.DTOs.Auth;
+using Milliygramm.Web.Services.Users;
 
 namespace Milliygramm.Web.Components.Layout;
 
@@ -16,19 +18,27 @@ public partial class MainLayout
     [Inject]
     private NavigationManager NavigationManager { get; set; } = default!;
 
+
     protected override async Task OnInitializedAsync()
     {
-        var authState = await ((CustomAuthStateProvider)AuthStateProvider).GetAuthenticationStateAsync();
-        var user = authState.User;
+        try
+        {
+            var authState = await ((CustomAuthStateProvider)AuthStateProvider).GetAuthenticationStateAsync();
+            var user = authState.User;
 
-        if (!user.Identity.IsAuthenticated)
-        {
-            NavigationManager.NavigateTo("/auth/login");
+            if (!user.Identity.IsAuthenticated)
+            {
+                NavigationManager.NavigateTo("/auth/login");
+            }
+            else
+            {
+                IsShowContent = true;
+                userModel = await ((CustomAuthStateProvider)AuthStateProvider).GetCurrentUser();
+            }
         }
-        else
+        catch (Exception e)
         {
-            IsShowContent = true;
-            userModel = await ((CustomAuthStateProvider)AuthStateProvider).GetCurrentUser();
+
         }
     }
 }

@@ -1,11 +1,12 @@
-﻿@using Milliygramm.Web.Components.Pages.Modals
+﻿@using Milliygramm.Model.ApiModels
+@using Milliygramm.Web.Components.Pages.Modals
 @rendermode InteractiveServer
 <header class="header">
     <div class="container">
         <div class="header__inner">
             <button class="profile-btn" @onclick="()=> {Modal?.Open();}">
                 <div class="avatar-container">
-                    <img src="@user?.UserDetail?.Picture?.Path"
+                    <img src="@($"{ApiSettings.ApiUrl}/{user?.UserDetail?.Picture?.Path}")"
                          alt="User profile"
                          class="avatar-img" />
                 </div>
@@ -22,7 +23,7 @@
     <Title>
         <div class="user-box">
             <div class="avatar-lg">
-                <img src="@user?.UserDetail?.Picture?.Path"
+                <img src="@($"{ApiSettings.ApiUrl}/{user?.UserDetail?.Picture?.Path}")"
                      alt="image profile"
                      class="avatar-img" />
             </div>
