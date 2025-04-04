@@ -16,6 +16,9 @@ public partial class Profile
 
     [Inject]
     private IUserApiService userApiService { get; set; } = default!;
+
+    [Inject]
+    private NavigationManager navigationManager { get; set; } = default!;
     private UserViewModel? userModel {  get; set; }
     private IBrowserFile? selectedFile;
 
@@ -43,10 +46,24 @@ public partial class Profile
 
             userModel = await userApiService.UploadPictureAsync(userModel.Id, content);
             await ((CustomAuthStateProvider)AuthStateProvider).SetCurrentUser(userModel, true);
-            StateHasChanged();
+            navigationManager.NavigateTo(navigationManager.Uri, forceLoad: true);
         }
         catch (Exception ex)
         {
         }
+    }
+
+    private async Task HandleSave()
+    {
+        // Save logic here
+        // var response = await Http.PutAsJsonAsync("api/user/profile", userModel);
+
+        // If successful:
+        // Navigation.NavigateTo("/user/profile");
+    }
+
+    private void CancelChanges()
+    {
+        navigationManager.NavigateTo(navigationManager.Uri, forceLoad: true);
     }
 }

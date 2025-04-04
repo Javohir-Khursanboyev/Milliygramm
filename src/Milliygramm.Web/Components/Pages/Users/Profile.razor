@@ -5,12 +5,81 @@
     <h4>Account settings</h4>
 
     <div class="profile-section">
-        <img src="@($"{ApiSettings.ApiUrl}/{userModel?.UserDetail?.Picture?.Path}")" class="profile-img" alt="Profile Image">
+        <img src="@($"{ApiSettings.ApiUrl}/{userModel?.UserDetail?.Picture?.Path}")"
+             class="profile-img"
+             alt="Profile Image" />
         <div>
-            <label>Upload New Image</label>
-            <InputFile OnChange="HandleImageUpload" class="form-control" />
-            <button class="btn btn-primary mt-2" @onclick="UploadImage">Upload Image</button>
+            <label for="file-upload">Upload New Image</label>
+            <InputFile id="file-upload"
+                       OnChange="HandleImageUpload"
+                       class="form-control"
+                       accept="image/*" />
+            <button class="btn btn-primary mt-2"
+                    @onclick="UploadImage"
+                    disabled="@(selectedFile == null)">
+                Upload Image
+            </button>
         </div>
     </div>
 
+    <EditForm Model="@userModel" OnValidSubmit="HandleSave" class="form-border-0">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="py-2">
+            <div class="row py-2">
+                <div class="col-md-6">
+                    <label for="FirstName">First Name</label>
+                    <InputText @bind-Value="userModel.FirstName"
+                               id="FirstName"
+                               class="bg-light form-control" />
+                    <ValidationMessage For="@(() => userModel.FirstName)" />
+                </div>
+                <div class="col-md-6 pt-md-0 pt-3">
+                    <label for="LastName">Last Name</label>
+                    <InputText @bind-Value="userModel.LastName"
+                               id="LastName"
+                               class="bg-light form-control" />
+                    <ValidationMessage For="@(() => userModel.LastName)" />
+                </div>
+            </div>
+
+            <div class="row py-2">
+                <div class="col-md-6">
+                    <label for="UserName">User Name</label>
+                    <InputText @bind-Value="userModel.UserName"
+                               id="UserName"
+                               class="bg-light form-control" />
+                    <ValidationMessage For="@(() => userModel.UserName)" />
+                </div>
+                <div class="col-md-6 pt-md-0 pt-3">
+                    <label for="Detail_Bio">Bio</label>
+                    <InputText @bind-Value="userModel.UserDetail.Bio"
+                               id="Detail_Bio"
+                               class="bg-light form-control bio-button" />
+                </div>
+            </div>
+
+            <div class="row py-2">
+                <div class="col-md-6">
+                    <label for="Detail_DateOfBirth">Date of Birth</label>
+                    <InputDate @bind-Value="userModel.UserDetail.DataOfBirth"
+                               id="Detail_DateOfBirth"
+                               class="bg-light form-control"
+                               format="yyyy-MM-dd" />
+                </div>
+                <div class="col-md-6 pt-md-0 pt-3">
+                    <label for="Detail_Location">Location</label>
+                    <InputText @bind-Value="userModel.UserDetail.Location"
+                               id="Detail_Location"
+                               class="bg-light form-control" />
+                </div>
+            </div>
+
+            <div class="py-3 pb-4 border-bottom">
+                <button class="btn btn-primary mr-3" type="submit">Save Changes</button>
+                <button class="btn border button" type="button" @onclick="CancelChanges">Cancel</button>
+            </div>
+        </div>
+    </EditForm>
 </div>
