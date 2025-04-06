@@ -16,6 +16,9 @@ public partial class Profile
 
     [Inject]
     private IUserApiService userApiService { get; set; } = default!;
+
+    [Inject]
+    private NavigationManager navigationManager { get; set; } = default!;
     private UserViewModel? userModel {  get; set; }
     private IBrowserFile? selectedFile;
 
@@ -42,11 +45,43 @@ public partial class Profile
             content.Add(new StringContent(FileType.Images.ToString()), "fileType");
 
             userModel = await userApiService.UploadPictureAsync(userModel.Id, content);
+            await ((CustomAuthStateProvider)AuthStateProvider).SetCurrentUser(userModel, true);
+            navigationManager.NavigateTo(navigationManager.Uri, forceLoad: true);
+        }
+        catch (Exception ex)
+        {
+        }
+    }
 
+    private async Task HandleSave()
+    {
+        if(userModel == null) return;
+        try
+        {
+            var userUpdateModel = new UserUpdateModel()
+            {
+                FirstName = userModel.FirstName,
+                LastName = userModel.LastName,
+                UserName = userModel.UserName,
+                UserDeatil = new UserDetailUpdateModel
+                {
+                    Bio = userModel.UserDetail.Bio,
+                    Location = userModel.UserDetail.Location,
+                    DataOfBirth = userModel.UserDetail.DataOfBirth
+                }
+            };
+            userModel = await userApiService.UpdateAsync(userModel.Id, userUpdateModel);
+            await ((CustomAuthStateProvider)AuthStateProvider).SetCurrentUser(userModel, true);
             StateHasChanged();
         }
         catch (Exception ex)
         {
         }
+    }
+
+    private async Task CancelChanges()
+    {
+        userModel = await((CustomAuthStateProvider)AuthStateProvider).GetCurrentUser();
+        StateHasChanged();
     }
 }
