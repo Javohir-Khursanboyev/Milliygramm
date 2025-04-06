@@ -1,6 +1,8 @@
 ﻿@page "/user/profile"
 @using Milliygramm.Model.ApiModels
 
+@if(userModel is not null){
+
 <div class="settings-container">
     <h4>Account settings</h4>
 
@@ -83,3 +85,5 @@
         </div>
     </EditForm>
 </div>
+
+}

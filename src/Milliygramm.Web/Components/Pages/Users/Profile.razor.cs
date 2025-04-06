@@ -55,15 +55,33 @@ public partial class Profile
 
     private async Task HandleSave()
     {
-        // Save logic here
-        // var response = await Http.PutAsJsonAsync("api/user/profile", userModel);
-
-        // If successful:
-        // Navigation.NavigateTo("/user/profile");
+        if(userModel == null) return;
+        try
+        {
+            var userUpdateModel = new UserUpdateModel()
+            {
+                FirstName = userModel.FirstName,
+                LastName = userModel.LastName,
+                UserName = userModel.UserName,
+                UserDeatil = new UserDetailUpdateModel
+                {
+                    Bio = userModel.UserDetail.Bio,
+                    Location = userModel.UserDetail.Location,
+                    DataOfBirth = userModel.UserDetail.DataOfBirth
+                }
+            };
+            userModel = await userApiService.UpdateAsync(userModel.Id, userUpdateModel);
+            await ((CustomAuthStateProvider)AuthStateProvider).SetCurrentUser(userModel, true);
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+        }
     }
 
-    private void CancelChanges()
+    private async Task CancelChanges()
     {
-        navigationManager.NavigateTo(navigationManager.Uri, forceLoad: true);
+        userModel = await((CustomAuthStateProvider)AuthStateProvider).GetCurrentUser();
+        StateHasChanged();
     }
 }
