@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Blazored.Toast.Services;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Milliygramm.Model.DTOs.Auth;
 using Milliygramm.Web.Authorization;
@@ -17,15 +18,17 @@ public sealed partial class Login
     [Inject]
     private AuthenticationStateProvider authStateProvider { get; set; } = default!;
 
+    [Inject]
+    private IToastService toastService { get; set; } = default!;
+
     private LoginModel loginModel { get; set; } = new LoginModel();
-    private bool showError = false;
-    private string errorMessage = string.Empty;
 
     private async Task HandleLogin()
     {
         try
         {
             var res = await authApiService.LoginAsync(loginModel);
+            toastService.ShowSuccess("Login successful!");
             if (res is not null && res.Token is not null)
             {
                 await ((CustomAuthStateProvider)authStateProvider).MarkUserAsAuthenticated(res);
@@ -34,8 +37,7 @@ public sealed partial class Login
         }
         catch (Exception ex)
         {
-            showError = true; // Xatolik xabarini ko'rsatish
-            errorMessage = ex.Message; // Xatolik xabarini o'rnatish
+            toastService.ShowError(ex.Message);
         }
     }
 }

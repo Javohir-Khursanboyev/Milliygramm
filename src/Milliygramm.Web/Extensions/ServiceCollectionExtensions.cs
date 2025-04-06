@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components.Authorization;
+﻿using Blazored.Toast;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using Milliygramm.Model.ApiModels;
 using Milliygramm.Web.Authorization;
@@ -26,6 +27,9 @@ public static class ServiceCollectionExtensions
         services.AddScoped<ProtectedLocalStorage>();
 
         services.AddAuthorizationCore();
+
+        // Blazored Toast ni qo'shish
+        services.AddBlazoredToast();
 
         return services;
     }
