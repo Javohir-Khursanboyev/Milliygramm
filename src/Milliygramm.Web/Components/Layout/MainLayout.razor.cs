@@ -34,7 +34,7 @@ public partial class MainLayout
 
             if (!user.Identity.IsAuthenticated)
             {
-                NavigationManager.NavigateTo("/auth/login");
+                NavigationManager.NavigateTo("/");
             }
             else
             {

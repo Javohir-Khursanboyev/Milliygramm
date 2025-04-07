@@ -1,0 +1,227 @@
+﻿@page "/error-page/{statusCode:int}"
+@inject NavigationManager Navigation
+@layout EmptyLayout
+
+<div class="error-container">
+    <div class="error-content">
+        @if (is404)
+        {
+            <div class="error-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                    <line x1="12" y1="9" x2="12" y2="13"></line>
+                    <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                </svg>
+            </div>
+            <h1>404 - Sahifa topilmadi</h1>
+            <p class="error-description">
+                Kechirasiz, siz qidirgan sahifa mavjud emas yoki o'chirilgan bo'lishi mumkin.
+            </p>
+        }
+        else
+        {
+            <div class="error-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                </svg>
+            </div>
+            <h1>@StatusCode - Xatolik yuz berdi</h1>
+            <p class="error-description">
+                Kechirasiz, serverda ichki xatolik yuz berdi. Iltimos, keyinroq urinib ko'ring.
+            </p>
+        }
+
+        <div class="error-actions">
+            <button @onclick="GoToHome" class="btn btn-primary">
+                <i class="fas fa-home"></i> Bosh sahifaga qaytish
+            </button>
+
+            <button @onclick="GoBack" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Orqaga qaytish
+            </button>
+
+            @if (is404)
+            {
+                <button @onclick="ReportProblem" class="btn btn-outline-secondary">
+                    <i class="fas fa-bug"></i> Xatolik haqida xabar berish
+                </button>
+            }
+        </div>
+
+        <div class="error-details" style="@(showDetails ? "" : "display:none;")">
+            <h3>Texnik ma'lumot:</h3>
+            <p><strong>Status kodi:</strong> @StatusCode</p>
+            <p><strong>Sahifa manzili:</strong> @currentUrl</p>
+            <p><strong>Vaqt:</strong> @DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")</p>
+        </div>
+
+        <a href="#" @onclick="ToggleDetails" class="details-toggle">
+            @(showDetails ? "Texnik ma'lumotlarni yashirish" : "Texnik ma'lumotlarni ko'rsatish")
+        </a>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public int StatusCode { get; set; }
+
+    private bool is404;
+    private bool showDetails = false;
+    private string currentUrl;
+
+    protected override void OnInitialized()
+    {
+        is404 = StatusCode == 404;
+        currentUrl = Navigation.Uri;
+    }
+
+    private void GoToHome()
+    {
+        Navigation.NavigateTo("/");
+    }
+
+    private void GoBack()
+    {
+        Navigation.NavigateTo(Navigation.ToBaseRelativePath(currentUrl));
+    }
+
+    private void ReportProblem()
+    {
+        // Xatolik haqida xabar berish logikasi
+        Navigation.NavigateTo($"/contact?subject=404 Error&message=404 error occurred on: {currentUrl}");
+    }
+
+    private void ToggleDetails()
+    {
+        showDetails = !showDetails;
+    }
+}
+
+<style>
+    .error-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 2rem;
+        background-color: #f8f9fa;
+    }
+
+    .error-content {
+        max-width: 600px;
+        width: 100%;
+        padding: 2rem;
+        text-align: center;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .error-icon {
+        margin-bottom: 1.5rem;
+    }
+
+        .error-icon svg {
+            width: 80px;
+            height: 80px;
+            color: #dc3545;
+        }
+
+    h1 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        color: #343a40;
+    }
+
+    .error-description {
+        font-size: 1.1rem;
+        color: #6c757d;
+        margin-bottom: 2rem;
+    }
+
+    .error-actions {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    .btn {
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        cursor: pointer;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        color: white;
+        border: 1px solid #007bff;
+    }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        color: white;
+        border: 1px solid #6c757d;
+    }
+
+    .btn-outline-secondary {
+        background-color: transparent;
+        color: #6c757d;
+        border: 1px solid #6c757d;
+    }
+
+    .error-details {
+        text-align: left;
+        margin-top: 2rem;
+        padding: 1rem;
+        background-color: #f8f9fa;
+        border-radius: 4px;
+    }
+
+        .error-details h3 {
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .error-details p {
+            margin-bottom: 0.5rem;
+        }
+
+    .details-toggle {
+        color: #6c757d;
+        text-decoration: none;
+        font-size: 0.9rem;
+        cursor: pointer;
+    }
+
+        .details-toggle:hover {
+            text-decoration: underline;
+        }
+
+    /* Responsive design */
+    @@media (max-width: 576px) {
+        .error-content {
+            padding: 1.5rem;
+        }
+
+        h1 {
+            font-size: 2rem;
+        }
+
+        .error-actions {
+            flex-direction: column;
+        }
+
+        .btn {
+            width: 100%;
+            justify-content: center;
+        }
+    }
+</style>
