@@ -1,18 +1,62 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="">Milliygramm.Web</a>
+﻿<div class="sidebar @(isCollapsed ? "collapsed" : "")">
+    <div class="sidebar-header">
+        @if (!isCollapsed)
+        {
+            <div class="logo-header">
+                <a href="/user/dashboard" class="logo">
+                    <img src="/Images/Logo2.png" alt="navbar brand" class="navbar-brand" />
+                </a>
+            </div>
+        }
+        <button class="toggle-button" @onclick="ToggleSidebar">☰</button>
     </div>
+
+    <ul class="nav nav-secondary">
+        <!-- Dashboard -->
+        <li class="nav-item active">
+            <a href="/user/dashboard" class="nav-link">
+                <i class="fas fa-home"></i>
+                @if (!isCollapsed)
+                {
+                    <span>Dashboard</span>
+                }
+            </a>
+        </li>
+
+        <!-- Profile -->
+        <li class="nav-item">
+            <a href="/user/profile" class="nav-link">
+                <i class="fas fa-user"></i>
+                @if (!isCollapsed)
+                {
+                    <span>Profile</span>
+                }
+            </a>
+        </li>
+
+        <!-- Settings -->
+        <li class="nav-item">
+            <a href="/user/settings" class="nav-link">
+                <i class="fas fa-cog"></i>
+                @if (!isCollapsed)
+                {
+                    <span>Settings</span>
+                }
+            </a>
+        </li>
+    </ul>
+
 </div>
 
-<input type="checkbox" title="Navigation menu" class="navbar-toggler" />
+@code {
+    private bool isCollapsed = false;
 
-<div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
-    <nav class="nav flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
-            </NavLink>
-        </div>
-    </nav>
-</div>
+    [Parameter]
+    public EventCallback<bool> OnToggleSidebar { get; set; }
 
+    private async Task ToggleSidebar()
+    {
+        isCollapsed = !isCollapsed;
+        await OnToggleSidebar.InvokeAsync(isCollapsed);
+    }
+}
