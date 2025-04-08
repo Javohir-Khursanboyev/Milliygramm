@@ -24,8 +24,8 @@ public sealed class UserUpdateModelValidator : AbstractValidator<UserUpdateModel
             .Must(username => !Regex.IsMatch(username, @"^[^a-zA-Z0-9]"))
             .WithMessage("Username cannot start with a special character.");
 
-        RuleFor(user => user.UserDeatil)
+        RuleFor(user => user.UserDetail)
             .SetValidator(new UserDetailUpdateModelValidator())
-            .When(user => user.UserDeatil != null);
+            .When(user => user.UserDetail != null);
     }
 }

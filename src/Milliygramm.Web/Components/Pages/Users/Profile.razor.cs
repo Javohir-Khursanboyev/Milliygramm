@@ -68,7 +68,7 @@ public partial class Profile
                 FirstName = userModel.FirstName,
                 LastName = userModel.LastName,
                 UserName = userModel.UserName,
-                UserDeatil = new UserDetailUpdateModel
+                UserDetail = new UserDetailUpdateModel
                 {
                     Bio = userModel.UserDetail.Bio,
                     Location = userModel.UserDetail.Location,
