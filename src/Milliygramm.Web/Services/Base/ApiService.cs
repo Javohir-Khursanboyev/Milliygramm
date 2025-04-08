@@ -1,12 +1,11 @@
-﻿using Newtonsoft.Json;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Net.Http.Headers;
-using Milliygramm.Model.DTOs.Auth;
-using Milliygramm.Model.ApiModels;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
+using Microsoft.AspNetCore.Localization;
+using Milliygramm.Model.ApiModels;
+using Milliygramm.Model.DTOs.Auth;
+using Newtonsoft.Json;
 
 namespace Milliygramm.Web.Services.Base;
 
