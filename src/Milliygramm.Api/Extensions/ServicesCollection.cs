@@ -54,6 +54,7 @@ public static class ServicesCollection
         services.AddTransient<GroupUpdateModelValidator>();
         services.AddTransient<GroupDetailCreateModelValidator>();
         services.AddTransient<GroupDetailUpdateModelValidator>();
+        services.AddTransient<ChangeEmailValidator>();
     }
 
     public static void InjectEnvironmentItems(this WebApplication app)

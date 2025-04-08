@@ -18,6 +18,7 @@ public sealed class UserService(
     IUnitOfWork unitOfWork, 
     IAssetService assetService,
     IUserDetailService userDetailService,
+    ChangeEmailValidator changeEmailValidator,
     UserCreateModelValidator createModelValidotor,
     UserUpdateModelValidator updateModelValidator) : IUserService
 {
@@ -122,6 +123,24 @@ public sealed class UserService(
         existUser.UserDetail.PictureId = Asset.DefaultPictureId;
         await unitOfWork.SaveAsync();
         await unitOfWork.CommitTransactionAsync();
+
+        return mapper.Map<UserViewModel>(existUser);
+    }
+
+    public async Task<UserViewModel> UpdateEmailAsync(long id, ChangeEmail changeEmail)
+    {
+        await changeEmailValidator.EnsureValidatedAsync(changeEmail);
+        var existUser = await unitOfWork.Users.SelectAsync(u => u.Id == id)
+            ?? throw new NotFoundException($"User is not found with this ID {id}");
+
+        var alreadyExistUser = await unitOfWork.Users
+           .SelectAsync(u => u.Email.ToLower() == changeEmail.Email.ToLower() && u.Id != id);
+
+        if (alreadyExistUser is not null)
+            throw new AlreadyExistException($"User is already exist with this email {changeEmail.Email}");
+
+        existUser.Email = changeEmail.Email;
+        await unitOfWork.SaveAsync();
 
         return mapper.Map<UserViewModel>(existUser);
     }
