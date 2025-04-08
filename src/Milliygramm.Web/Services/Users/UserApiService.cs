@@ -43,6 +43,15 @@ public sealed class UserApiService(IApiService apiService) : IUserApiService
         return DeserializeUser(apiResponse.Data);
     }
 
+    public async Task<UserViewModel> UpdateEmailAsync(long id, ChangeEmail model)
+    {
+        var apiResponse = await apiService.PutAsync<ChangeEmail>($"{baseUri}/{id}/email", model);
+        if (!apiResponse.IsSuccess)
+            throw new Exception(apiResponse.Message);
+
+        return DeserializeUser(apiResponse.Data);
+    }
+
     public async Task<UserViewModel> UploadPictureAsync(long id, MultipartFormDataContent content)
     {
         var apiResponse = await apiService.PostMultipartFormDataAsync($"{baseUri}/{id}/pictures/upload", content);

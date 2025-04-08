@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Blazored.Toast.Services;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Milliygramm.Model.DTOs.Users;
 using Milliygramm.Web.Authorization;
@@ -13,9 +14,11 @@ public partial class Settings
 
     [Inject]
     private IUserApiService userApiService { get; set; } = default!;
+    [Inject]
+    private IToastService toastService { get; set; } = default!;
 
-    private UserViewModel? user { get; set; } = default!;
-    private ChangeEmail changeEmail { get; set; } = default!;
+    private UserViewModel? user { get; set; }
+    private ChangeEmail changeEmail { get; set; } = new ();
 
     protected override async Task OnInitializedAsync()
     {
@@ -26,18 +29,12 @@ public partial class Settings
     {
         try
         {
-            //var response = await Http.PostAsJsonAsync("api/users/change-email", securityModel);
-
-            //if (response.IsSuccessStatusCode)
-            //{
-            //    ToastService.ShowSuccess("Email updated successfully");
-            //    // Refresh user data
-            //    user = await Http.GetFromJsonAsync<UserViewModel>("api/users/current");
-            //}
-            //else
-            //{
-            //    serviceError = await response.Content.ReadAsStringAsync();
-            //}
+            if(user is null)
+                return;
+            user = await userApiService.UpdateEmailAsync(user.Id, changeEmail);
+            await ((CustomAuthStateProvider)AuthStateProvider).SetCurrentUser(user, true);
+            StateHasChanged();
+            toastService.ShowSuccess("Email updated successfully!");
         }
         catch (Exception ex)
         {
