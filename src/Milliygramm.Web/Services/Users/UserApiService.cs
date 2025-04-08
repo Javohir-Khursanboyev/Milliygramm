@@ -43,6 +43,15 @@ public sealed class UserApiService(IApiService apiService) : IUserApiService
         return DeserializeUser(apiResponse.Data);
     }
 
+    public async Task<UserViewModel> ChangePasswordAsync(long id, ChangePassword model)
+    {
+        var apiResponse = await apiService.PutAsync<ChangePassword>($"{baseUri}/{id}/password", model);
+        if (!apiResponse.IsSuccess)
+            throw new Exception(apiResponse.Message);
+
+        return DeserializeUser(apiResponse.Data);
+    }
+
     public async Task<UserViewModel> UpdateEmailAsync(long id, ChangeEmail model)
     {
         var apiResponse = await apiService.PutAsync<ChangeEmail>($"{baseUri}/{id}/email", model);

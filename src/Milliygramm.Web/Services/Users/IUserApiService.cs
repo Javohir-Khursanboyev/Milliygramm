@@ -10,6 +10,7 @@ public interface IUserApiService
     Task<bool> DeleteAsync(long id);
     Task<UserViewModel> GetByIdAsync(long id);
     Task<UserViewModel> UpdateEmailAsync(long id, ChangeEmail model);
+    Task<UserViewModel> ChangePasswordAsync(long id, ChangePassword model);
     Task<UserViewModel> UploadPictureAsync(long userId, MultipartFormDataContent content);
     Task<bool> DeletePictureAsync(long id);
 }
