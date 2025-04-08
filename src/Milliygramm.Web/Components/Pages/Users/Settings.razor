@@ -1,4 +1,250 @@
 ﻿@page "/user/settings"
+@using Milliygramm.Model.DTOs.Users
 
+@inject HttpClient Http
+@inject NavigationManager Navigation
+@inject IToastService ToastService
 
-<h1>Settings</h1>
+<EditForm Model="@securityModel" OnValidSubmit="@HandleChangeEmail">
+    <DataAnnotationsValidator />
+    <div class="card">
+        <!-- Card header -->
+        <div class="card-header">
+            <h3 class="mb-0">Security</h3>
+            <p class="mb-0">Edit your account settings and change your password here.</p>
+        </div>
+
+        @if (!string.IsNullOrEmpty(serviceError))
+        {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>@serviceError</strong>
+                <button type="button" class="btn-close" @onclick="() => serviceError = null"></button>
+            </div>
+        }
+
+        <!-- Card body -->
+        <div class="card-body">
+            <h4 class="mb-0">Email Address</h4>
+            <p>
+                Your current email address is
+                <span class="text-success">@user?.Email</span>
+            </p>
+            <div class="row">
+                <div class="mb-3 col-lg-6 col-md-12 col-12">
+                    <label class="form-label" for="email">New email address</label>
+                    <InputText id="email" @bind-Value="securityModel.Email" class="form-control" placeholder="" />
+                    <ValidationMessage For="@(() => securityModel.Email)" />
+                    <button type="submit" class="btn btn-primary mt-2">Update Details</button>
+                </div>
+            </div>
+
+            <hr class="my-5" />
+
+            <div>
+                <h4 class="mb-0">Change Password</h4>
+                <p>
+                    We will email you a confirmation when changing your
+                    password, so please expect that email after submitting.
+                </p>
+
+                <EditForm Model="@passwordModel" OnValidSubmit="@HandleChangePassword" Context="passwordForm">
+                    <DataAnnotationsValidator />
+                    <div class="row">
+                        <div class="col-lg-6 col-md-12 col-12">
+                            <!-- Current password -->
+                            <div class="mb-3">
+                                <label class="form-label" for="currentpassword">Current password</label>
+                                <InputText id="currentpassword" type="password" @bind-Value="passwordModel.CurrentPassword" class="form-control" placeholder="" />
+                                <ValidationMessage For="@(() => passwordModel.CurrentPassword)" />
+                            </div>
+                            <!-- New password -->
+                            <div class="mb-3 password-field">
+                                <label class="form-label" for="newpassword">New password</label>
+                                <InputText id="newpassword" type="password" @bind-Value="passwordModel.NewPassword" class="form-control mb-2" placeholder="" />
+                                <ValidationMessage For="@(() => passwordModel.NewPassword)" />
+                                <div class="row align-items-center g-0">
+                                    <div class="col-6">
+                                        <span data-bs-toggle="tooltip" data-placement="right" data-bs-original-title="Test it by typing a password in the field below. To reach full strength, use at least 6 characters, a capital letter and a digit, e.g. 'Test01'">
+                                            Password strength
+                                            <i class="fe fe-help-circle ms-1"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <!-- Confirm new password -->
+                                <label class="form-label" for="confirmpassword">Confirm New Password</label>
+                                <InputText id="confirmpassword" type="password" @bind-Value="passwordModel.ConfirmPassword" class="form-control mb-2" placeholder="" />
+                                <ValidationMessage For="@(() => passwordModel.ConfirmPassword)" />
+                            </div>
+                            <!-- Button -->
+                            <button type="submit" class="btn btn-primary">Save Password</button>
+                            <div class="col-6"></div>
+                        </div>
+                    </div>
+                </EditForm>
+
+                <div class="col-12 mt-4">
+                    <p class="mb-0">
+                        Can't remember your current password?
+                        <a href="/forgot-password">Reset your password via email</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mt-4">
+        <!-- Card header -->
+        <div class="card-header">
+            <h3 class="mb-0">Delete your account</h3>
+            <p class="mb-0">Delete or Close your account permanently.</p>
+        </div>
+        <!-- Card body -->
+        <div class="card-body p-4">
+            <span class="text-danger h4">Warning</span>
+            <p>
+                If you close your account, you will be unsubscribed from all
+                your courses, and will lose access forever.
+            </p>
+            <button @onclick="ShowDeleteConfirmation" class="btn btn-danger">Close My Account</button>
+        </div>
+    </div>
+
+    <!-- Delete confirmation modal -->
+    <div class="modal @(showDeleteModal ? "show d-block" : "d-none")" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirm Account Deletion</h5>
+                    <button type="button" class="btn-close" @onclick="CloseDeleteModal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to permanently delete your account? This action cannot be undone.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" @onclick="CloseDeleteModal">Cancel</button>
+                    <button type="button" class="btn btn-danger" @onclick="HandleDeleteAccount">Delete My Account</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</EditForm>
+
+@code {
+    private UserViewModel? user;
+    private SecurityModel securityModel = new();
+    private ChangePasswordModel passwordModel = new();
+    private string? serviceError;
+    private bool showDeleteModal;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Load user data
+        try
+        {
+            user = await Http.GetFromJsonAsync<UserViewModel>("api/users/current");
+        }
+        catch (Exception ex)
+        {
+            serviceError = "Failed to load user data";
+            Console.WriteLine(ex.Message);
+        }
+    }
+
+    private async Task HandleChangeEmail()
+    {
+        try
+        {
+            var response = await Http.PostAsJsonAsync("api/users/change-email", securityModel);
+
+            if (response.IsSuccessStatusCode)
+            {
+                ToastService.ShowSuccess("Email updated successfully");
+                // Refresh user data
+                user = await Http.GetFromJsonAsync<UserViewModel>("api/users/current");
+            }
+            else
+            {
+                serviceError = await response.Content.ReadAsStringAsync();
+            }
+        }
+        catch (Exception ex)
+        {
+            serviceError = "An error occurred while updating email";
+            Console.WriteLine(ex.Message);
+        }
+    }
+
+    private async Task HandleChangePassword()
+    {
+        try
+        {
+            var response = await Http.PostAsJsonAsync("api/users/change-password", passwordModel);
+
+            if (response.IsSuccessStatusCode)
+            {
+                ToastService.ShowSuccess("Password changed successfully");
+                passwordModel = new ChangePasswordModel();
+            }
+            else
+            {
+                serviceError = await response.Content.ReadAsStringAsync();
+            }
+        }
+        catch (Exception ex)
+        {
+            serviceError = "An error occurred while changing password";
+            Console.WriteLine(ex.Message);
+        }
+    }
+
+    private void ShowDeleteConfirmation()
+    {
+        showDeleteModal = true;
+    }
+
+    private void CloseDeleteModal()
+    {
+        showDeleteModal = false;
+    }
+
+    private async Task HandleDeleteAccount()
+    {
+        try
+        {
+            var response = await Http.PostAsync("api/users/delete-account", null);
+
+            if (response.IsSuccessStatusCode)
+            {
+                ToastService.ShowSuccess("Account deleted successfully");
+                Navigation.NavigateTo("/logout");
+            }
+            else
+            {
+                serviceError = await response.Content.ReadAsStringAsync();
+                showDeleteModal = false;
+            }
+        }
+        catch (Exception ex)
+        {
+            serviceError = "An error occurred while deleting account";
+            Console.WriteLine(ex.Message);
+            showDeleteModal = false;
+        }
+    }
+
+    public class SecurityModel
+    {
+        public string Email { get; set; } = string.Empty;
+    }
+
+    public class ChangePasswordModel
+    {
+        public string CurrentPassword { get; set; } = string.Empty;
+
+        public string NewPassword { get; set; } = string.Empty;
+
+        public string ConfirmPassword { get; set; } = string.Empty;
+    }
+}

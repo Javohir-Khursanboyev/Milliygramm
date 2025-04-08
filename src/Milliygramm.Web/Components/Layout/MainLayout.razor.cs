@@ -18,6 +18,12 @@ public partial class MainLayout
     [Inject]
     private NavigationManager NavigationManager { get; set; } = default!;
 
+    private bool isSidebarCollapsed = false;
+
+    private void HandleSidebarToggle(bool collapsed)
+    {
+        isSidebarCollapsed = collapsed;
+    }
 
     protected override async Task OnInitializedAsync()
     {
@@ -28,7 +34,7 @@ public partial class MainLayout
 
             if (!user.Identity.IsAuthenticated)
             {
-                NavigationManager.NavigateTo("/auth/login");
+                NavigationManager.NavigateTo("/");
             }
             else
             {

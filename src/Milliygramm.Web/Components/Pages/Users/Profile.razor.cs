@@ -1,4 +1,5 @@
 ﻿using System.Net.Http.Headers;
+using Blazored.Toast.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Forms;
@@ -19,6 +20,9 @@ public partial class Profile
 
     [Inject]
     private NavigationManager navigationManager { get; set; } = default!;
+
+    [Inject]
+    private IToastService toastService { get; set; } = default!;
     private UserViewModel? userModel {  get; set; }
     private IBrowserFile? selectedFile;
 
@@ -50,6 +54,7 @@ public partial class Profile
         }
         catch (Exception ex)
         {
+            toastService.ShowError($"Failed to upload image: {ex.Message}");
         }
     }
 
@@ -63,7 +68,7 @@ public partial class Profile
                 FirstName = userModel.FirstName,
                 LastName = userModel.LastName,
                 UserName = userModel.UserName,
-                UserDeatil = new UserDetailUpdateModel
+                UserDetail = new UserDetailUpdateModel
                 {
                     Bio = userModel.UserDetail.Bio,
                     Location = userModel.UserDetail.Location,
@@ -73,15 +78,25 @@ public partial class Profile
             userModel = await userApiService.UpdateAsync(userModel.Id, userUpdateModel);
             await ((CustomAuthStateProvider)AuthStateProvider).SetCurrentUser(userModel, true);
             StateHasChanged();
+            toastService.ShowSuccess("Profile updated successfully!");
         }
         catch (Exception ex)
         {
+            toastService.ShowError($"Failed to update profile: {ex.Message}");
         }
     }
 
     private async Task CancelChanges()
     {
-        userModel = await((CustomAuthStateProvider)AuthStateProvider).GetCurrentUser();
-        StateHasChanged();
+        try
+        {
+            userModel = await ((CustomAuthStateProvider)AuthStateProvider).GetCurrentUser();
+            StateHasChanged();
+            toastService.ShowInfo("Changes discarded");
+        }
+        catch(Exception ex)
+        {
+            toastService.ShowError($"Failed to cancel changes: {ex.Message}");
+        }
     }
 }

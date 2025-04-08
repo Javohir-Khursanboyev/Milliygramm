@@ -28,7 +28,6 @@ public sealed partial class Login
         try
         {
             var res = await authApiService.LoginAsync(loginModel);
-            toastService.ShowSuccess("Login successful!");
             if (res is not null && res.Token is not null)
             {
                 await ((CustomAuthStateProvider)authStateProvider).MarkUserAsAuthenticated(res);

@@ -3,19 +3,24 @@
 
 @if(IsShowContent){
     <div class="page">
-        <IndexHeader user="@userModel"/>
-        <div class="main-content">
-            <article class="content">
-                @Body
-            </article>
-        </div>
+        <!-- Sidebar -->
+        <NavMenu OnToggleSidebar="HandleSidebarToggle" />
 
+        <!-- Main Content -->
+        <div class="main-wrapper @(isSidebarCollapsed ? "collapsed" : "")">
+            <IndexHeader user="@userModel" />
+            <div class="main-content">
+                <article class="content">
+                    @Body
+                    <BlazoredToasts Position="ToastPosition.TopRight"
+                                    Timeout="10"
+                                    IconType="IconType.FontAwesome"
+                                    SuccessClass="success-toast-override"
+                                    SuccessIcon="fa fa-thumbs-up"
+                                    ErrorIcon="fa fa-bug" />
+                </article>
+            </div>
+        </div>
     </div>
 }
 
-<BlazoredToasts Position="ToastPosition.BottomRight"
-                Timeout="10"
-                IconType="IconType.FontAwesome"
-                SuccessClass="success-toast-override"
-                SuccessIcon="fa fa-thumbs-up"
-                ErrorIcon="fa fa-bug" />
