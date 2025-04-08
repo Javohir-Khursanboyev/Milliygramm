@@ -1,15 +1,16 @@
 ﻿using AutoMapper;
 using Milliygramm.Data.UnitOfWork;
 using Milliygramm.Domain.Entities;
+using Milliygramm.Model.DTOs.Assets;
 using Milliygramm.Model.DTOs.Auth;
-using Milliygramm.Service.Helpers;
 using Milliygramm.Model.DTOs.Users;
 using Milliygramm.Service.Exceptions;
 using Milliygramm.Service.Extensions;
-using Milliygramm.Service.Validators.Users;
-using Milliygramm.Service.Services.UserDetails;
-using Milliygramm.Model.DTOs.Assets;
+using Milliygramm.Service.Helpers;
 using Milliygramm.Service.Services.Assets;
+using Milliygramm.Service.Services.UserDetails;
+using Milliygramm.Service.Validators.Auth;
+using Milliygramm.Service.Validators.Users;
 
 namespace Milliygramm.Service.Services.Users;
 
@@ -18,7 +19,9 @@ public sealed class UserService(
     IUnitOfWork unitOfWork, 
     IAssetService assetService,
     IUserDetailService userDetailService,
+    ChangeEmailValidator changeEmailValidator,
     UserCreateModelValidator createModelValidotor,
+    ChangePasswordValidator changePasswordValidator,
     UserUpdateModelValidator updateModelValidator) : IUserService
 {
     public async Task<LoginViewModel> CreateAsync(UserCreateModel createModel)
@@ -49,6 +52,24 @@ public sealed class UserService(
             User = mapper.Map<UserViewModel>(createdUser),
             Token = AuthHelper.GenerateToken(createdUser)
         };
+    }
+
+    public async Task<UserViewModel> ChangePasswordAsync(long id, ChangePassword changePassword)
+    {
+        await changePasswordValidator.EnsureValidatedAsync(changePassword);
+        var existUser = await unitOfWork.Users.SelectAsync(u => u.Id == id, includes: ["UserDetail.Picture"])
+            ?? throw new NotFoundException($"User is not found with this ID {id}");
+
+        if (!PasswordHasher.Verify(changePassword.Password, existUser.Password))
+            throw new ArgumentIsNotValidException("Password is incorrect");
+
+        if (changePassword.NewPassword != changePassword.ConfirmPassword)
+            throw new ArgumentIsNotValidException("Confirm password is incorrect");
+
+        existUser.Password = PasswordHasher.Hash(changePassword.NewPassword);
+        await unitOfWork.SaveAsync();
+
+        return mapper.Map<UserViewModel>(existUser);
     }
 
     private async Task<Role> GetUserRoleById(long userRoleId)
@@ -122,6 +143,24 @@ public sealed class UserService(
         existUser.UserDetail.PictureId = Asset.DefaultPictureId;
         await unitOfWork.SaveAsync();
         await unitOfWork.CommitTransactionAsync();
+
+        return mapper.Map<UserViewModel>(existUser);
+    }
+
+    public async Task<UserViewModel> UpdateEmailAsync(long id, ChangeEmail changeEmail)
+    {
+        await changeEmailValidator.EnsureValidatedAsync(changeEmail);
+        var existUser = await unitOfWork.Users.SelectAsync(u => u.Id == id, ["UserDetail.Picture"])
+            ?? throw new NotFoundException($"User is not found with this ID {id}");
+
+        var alreadyExistUser = await unitOfWork.Users
+           .SelectAsync(u => u.Email.ToLower() == changeEmail.Email.ToLower() && u.Id != id);
+
+        if (alreadyExistUser is not null)
+            throw new AlreadyExistException($"User is already exist with this email {changeEmail.Email}");
+
+        existUser.Email = changeEmail.Email;
+        await unitOfWork.SaveAsync();
 
         return mapper.Map<UserViewModel>(existUser);
     }

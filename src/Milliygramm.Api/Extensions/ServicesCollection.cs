@@ -47,13 +47,14 @@ public static class ServicesCollection
         services.AddTransient<UserCreateModelValidator>();
         services.AddTransient<UserUpdateModelValidator>();
         services.AddTransient<LoginModelValidator>();
-        services.AddTransient<ChangePasswordValidator>();
         services.AddTransient<AssetCreateModelValidator>();
         services.AddTransient<UserDetailUpdateModelValidator>();
         services.AddTransient<GroupCreatModelValidator>();
         services.AddTransient<GroupUpdateModelValidator>();
         services.AddTransient<GroupDetailCreateModelValidator>();
         services.AddTransient<GroupDetailUpdateModelValidator>();
+        services.AddTransient<ChangeEmailValidator>();
+        services.AddTransient<ChangePasswordValidator>();
     }
 
     public static void InjectEnvironmentItems(this WebApplication app)

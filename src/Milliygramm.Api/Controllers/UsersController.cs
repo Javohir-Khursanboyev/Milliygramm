@@ -54,6 +54,29 @@ public sealed class UsersController(IUserService userService) : ControllerBase
         });
     }
 
+    [HttpPut("{id:long}/email")]
+    public async Task<IActionResult> UpdateEmailAsync(long id, [FromBody] ChangeEmail emailModel)
+    {
+        return Ok(new Response
+        {
+            StatusCode = 200,
+            Message = "Success",
+            Data = await userService.UpdateEmailAsync(id, emailModel)
+        });
+    }
+
+    [HttpPut("{id:long}/password")]
+    public async Task<IActionResult> ChangePasswordAsync(long id, [FromBody] ChangePassword changePassword)
+    {
+        return Ok(new Response
+        {
+            StatusCode = 200,
+            Message = "Success",
+            Data = await userService.ChangePasswordAsync(id, changePassword)
+        });
+    }
+
+
     [HttpPost("{id:long}/pictures/upload")]
     public async Task<IActionResult> PictureUploadAsync(long id, AssetCreateModel asset)
     {
