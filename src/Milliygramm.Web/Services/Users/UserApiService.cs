@@ -1,6 +1,4 @@
 ﻿using Newtonsoft.Json;
-using Milliygramm.Model.ApiModels;
-using Milliygramm.Model.DTOs.Assets;
 using Milliygramm.Model.DTOs.Users;
 using Milliygramm.Web.Services.Base;
 
@@ -11,7 +9,7 @@ public sealed class UserApiService(IApiService apiService) : IUserApiService
     private const string baseUri = "/api/Users";
     public async Task<UserViewModel> CreateAsync(UserCreateModel model)
     {
-        var apiResponse = await apiService.PostAsync<Response, UserCreateModel>(baseUri, model);
+        var apiResponse = await apiService.PostAsync<UserCreateModel>(baseUri, model);
         if (!apiResponse.IsSuccess)
             throw new Exception(apiResponse.Message);
 
@@ -20,7 +18,7 @@ public sealed class UserApiService(IApiService apiService) : IUserApiService
 
     public async Task<UserViewModel> UpdateAsync(long id, UserUpdateModel model)
     {
-        var apiResponse = await apiService.PutAsync<Response, UserUpdateModel>($"{baseUri}/{id}", model);
+        var apiResponse = await apiService.PutAsync<UserUpdateModel>($"{baseUri}/{id}", model);
         if (!apiResponse.IsSuccess)
             throw new Exception(apiResponse.Message);
 
@@ -29,7 +27,7 @@ public sealed class UserApiService(IApiService apiService) : IUserApiService
 
     public async Task<bool> DeleteAsync(long id)
     {
-        var apiResponse = await apiService.DeleteAsync<Response>($"{baseUri}/{id}");
+        var apiResponse = await apiService.DeleteAsync($"{baseUri}/{id}");
         if (!apiResponse.IsSuccess)
             throw new Exception(apiResponse.Message);
 
@@ -38,7 +36,7 @@ public sealed class UserApiService(IApiService apiService) : IUserApiService
 
     public async Task<UserViewModel> GetByIdAsync(long id)
     {
-        var apiResponse = await apiService.GetFromJsonAsync<Response>($"{baseUri}/{id}");
+        var apiResponse = await apiService.GetAsync($"{baseUri}/{id}");
         if (!apiResponse.IsSuccess)
             throw new Exception(apiResponse.Message);
 
@@ -47,7 +45,7 @@ public sealed class UserApiService(IApiService apiService) : IUserApiService
 
     public async Task<UserViewModel> UploadPictureAsync(long id, MultipartFormDataContent content)
     {
-        var apiResponse = await apiService.PostMultipartFormDataAsync<Response>($"{baseUri}/{id}/pictures/upload", content);
+        var apiResponse = await apiService.PostMultipartFormDataAsync($"{baseUri}/{id}/pictures/upload", content);
         if (!apiResponse.IsSuccess)
             throw new Exception(apiResponse.Message);
 

@@ -11,7 +11,7 @@ public sealed class AuthApiService(IApiService apiService) : IAuthApiService
 
     public async Task<LoginViewModel> LoginAsync(LoginModel loginModel)
     {
-        var apiResponse = await apiService.PostAsync<Response, LoginModel>($"{baseUri}/login", loginModel);
+        var apiResponse = await apiService.PostAsync<LoginModel>($"{baseUri}/login", loginModel);
 
         if (!apiResponse.IsSuccess)
             throw new Exception(apiResponse.Message);

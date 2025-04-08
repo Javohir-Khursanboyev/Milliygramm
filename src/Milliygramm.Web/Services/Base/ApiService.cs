@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Net.Http.Headers;
 using Milliygramm.Model.DTOs.Auth;
+using Milliygramm.Model.ApiModels;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -9,7 +10,7 @@ using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 
 namespace Milliygramm.Web.Services.Base;
 
-public sealed class ApiService(HttpClient httpClient, ProtectedLocalStorage localStorage, NavigationManager navigationManager, AuthenticationStateProvider authStateProvider) : IApiService
+public sealed class ApiService(HttpClient httpClient, ProtectedLocalStorage localStorage, AuthenticationStateProvider authStateProvider) : IApiService
 {
     private async Task SetAuthorizeHeader()
     {
@@ -24,51 +25,69 @@ public sealed class ApiService(HttpClient httpClient, ProtectedLocalStorage loca
         }
     }
 
-    public async Task<T1> PostAsync<T1, T2>(string path, T2 postModel)
+    public async Task<Response> PostAsync<T>(string path, T postModel)
     {
         await SetAuthorizeHeader();
         var res = await httpClient.PostAsJsonAsync(path, postModel);
-        return await HandleResponse<T1>(res);
+        return await HandleResponse(res);
     }
 
-    public async Task<T> DeleteAsync<T>(string path)
+    public async Task<Response> DeleteAsync(string path)
     {
         await SetAuthorizeHeader();
         var res = await httpClient.DeleteAsync(path);
-        return await HandleResponse<T>(res);
+        return await HandleResponse(res);
     }
 
-    public async Task<T> GetFromJsonAsync<T>(string path)
+    public async Task<Response> GetAsync(string path)
     {
         await SetAuthorizeHeader();
         var res = await httpClient.GetAsync(path);
-        return await HandleResponse<T>(res);
+        return await HandleResponse(res);
     }
 
-    public async Task<T1> PutAsync<T1, T2>(string path, T2 postModel)
+    public async Task<Response> PutAsync<T>(string path, T postModel)
     {
         await SetAuthorizeHeader();
         var res = await httpClient.PutAsJsonAsync(path, postModel);
-        return await HandleResponse<T1>(res);
+        return await HandleResponse(res);
     }
 
-    public async Task<T> PostMultipartFormDataAsync<T>(string path, MultipartFormDataContent content)
+    public async Task<Response> PostMultipartFormDataAsync(string path, MultipartFormDataContent content)
     {
         await SetAuthorizeHeader();
         var response = await httpClient.PostAsync(path, content);
-        return await HandleResponse<T>(response);
+        return await HandleResponse(response);
     }
 
-
-    private static async Task<T> HandleResponse<T>(HttpResponseMessage response)
+    private static async Task<Response> HandleResponse(HttpResponseMessage response)
     {
         var content = await response.Content.ReadAsStringAsync();
-        if (!response.IsSuccessStatusCode)
-        {
-            throw new HttpRequestException($"Request failed with status {response.StatusCode}: {content}");
-        }
 
-        return JsonConvert.DeserializeObject<T>(content)
-            ?? throw new Exception("Response deserialization failed");
+        try
+        {
+            var apiResponse = JsonConvert.DeserializeObject<Response>(content);
+
+            if (apiResponse == null)
+            {
+                return new Response
+                {
+                    StatusCode = (int)response.StatusCode,
+                    Message = "Failed to deserialize API response",
+                    Data = null
+                };
+            }
+
+            return apiResponse;
+        }
+        catch (Exception ex)
+        {
+            return new Response
+            {
+                StatusCode = (int)response.StatusCode,
+                Message = ex.Message,
+                Data = null
+            };
+        }
     }
 }

@@ -22,7 +22,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseStatusCodePagesWithReExecute("/Error-page/{0}");
+app.UseStatusCodePages();
 
 app.UseHttpsRedirection();
 
