@@ -85,10 +85,10 @@ public sealed class AuthService(
           ?? throw new NotFoundException($"User is not found with this email = {model.Email}");
 
         var key = memoryCache.Get(cacheKey) as string;
-        if (key == model.Code)
-            return true;
+        if (key != model.Code)
+            throw new ArgumentIsNotValidException("Verification code is incorrect");
 
-        return false;
+        return true;
     }
 
     public async Task<bool> ResetPasswordAsync(ResetPasswordModel model)
