@@ -55,6 +55,9 @@ public static class ServicesCollection
         services.AddTransient<GroupDetailUpdateModelValidator>();
         services.AddTransient<ChangeEmailValidator>();
         services.AddTransient<ChangePasswordValidator>();
+        services.AddTransient<ResetPasswordRequestValidator>();
+        services.AddTransient<ResetPasswordValidator>();
+        services.AddTransient<VerifyResetCodeValidator>();
     }
 
     public static void InjectEnvironmentItems(this WebApplication app)

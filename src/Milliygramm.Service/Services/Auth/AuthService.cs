@@ -6,14 +6,20 @@ using Milliygramm.Model.DTOs.Users;
 using Milliygramm.Service.Exceptions;
 using Milliygramm.Service.Extensions;
 using Milliygramm.Service.Validators.Auth;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace Milliygramm.Service.Services.Auth;
 
 public sealed class AuthService(
     IMapper mapper, IUnitOfWork unitOfWork, 
     LoginModelValidator loginValidator,
-    ChangePasswordValidator passwordValidator) : IAuthService
+    IMemoryCache memoryCache,
+    ChangePasswordValidator passwordValidator,
+    ResetPasswordRequestValidator resetPasswordRequestValidator,
+    ResetPasswordValidator resetPasswordValidator,
+    VerifyResetCodeValidator verifyResetCodeValidator) : IAuthService
 {
+    private readonly string cacheKey = "EmailCodeKey";
     public async Task<LoginViewModel> LoginAsync(LoginModel loginModel)
     {
         await loginValidator.EnsureValidatedAsync(loginModel);
@@ -49,6 +55,56 @@ public sealed class AuthService(
         existUser.UpdatedAt = DateTime.UtcNow;
 
         return await unitOfWork.SaveAsync();
+    }
+
+    public async Task<bool> SendVerificationCodeAsync(ResetPasswordRequest model)
+    {
+        await resetPasswordRequestValidator.EnsureValidatedAsync(model);
+        var user = await unitOfWork.Users.SelectAsync(user => user.Email == model.Email)
+           ?? throw new NotFoundException($"User is not found with this email = {model.Email}");
+
+        var random = new Random();
+        var code = random.Next(10000, 99999);
+        await EmailHelper.SendMessageAsync(user.Email, "ConfirmationCode", code.ToString());
+
+        var memoryCacheOptions = new MemoryCacheEntryOptions()
+             .SetSize(50)
+             .SetAbsoluteExpiration(TimeSpan.FromSeconds(100))
+             .SetSlidingExpiration(TimeSpan.FromSeconds(50))
+        .SetPriority(CacheItemPriority.Normal);
+
+        memoryCache.Set(cacheKey, code.ToString(), memoryCacheOptions);
+
+        return true;
+    }
+
+    public async Task<bool> VerifyCodeAsync(VerifyResetCode model)
+    {
+        await verifyResetCodeValidator.EnsureValidatedAsync(model);
+        var user = await unitOfWork.Users.SelectAsync(user => user.Email == model.Email)
+          ?? throw new NotFoundException($"User is not found with this email = {model.Email}");
+
+        var key = memoryCache.Get(cacheKey) as string;
+        if (key != model.Code)
+            throw new ArgumentIsNotValidException("Verification code is incorrect");
+
+        return true;
+    }
+
+    public async Task<bool> ResetPasswordAsync(ResetPasswordModel model)
+    {
+        await resetPasswordValidator.EnsureValidatedAsync(model);
+        var user = await unitOfWork.Users.SelectAsync(user => user.Email == model.Email)
+         ?? throw new NotFoundException($"User is not found with this email = {model.Email}");
+
+        if (model.NewPassword != model.ConfirmPassword)
+            throw new ArgumentIsNotValidException("Confirm password is incorrect");
+
+        user.Password = PasswordHasher.Hash(model.NewPassword);
+        await unitOfWork.Users.UpdateAsync(user);
+        await unitOfWork.SaveAsync();
+
+        return true;
     }
 
     public async Task<bool> HasPermissionAsync(long userId, string action, string controller)

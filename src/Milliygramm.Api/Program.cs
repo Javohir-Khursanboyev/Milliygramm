@@ -17,7 +17,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddControllers(options =>
     options.Conventions.Add(new RouteTokenTransformerConvention(new ConfigurationApiUrlName())));
 
-
+builder.Services.AddMemoryCache();
 builder.Services.AddExceptionHandlers();
 builder.Services.AddProblemDetails();
 builder.Services.AddAutoMapper(typeof(MappingProfile));
